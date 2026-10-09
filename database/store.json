@@ -1,0 +1,1170 @@
+{
+  "users": [
+    {
+      "role": "ADMIN",
+      "updated_at": "2026-10-09T01:29:46.282Z",
+      "password_hash": "$2b$10$9QRqfLJNgIDlZ6jSdgM3ZuUYZaVyH//.TfEZvIq22gXl3WtnTtppq",
+      "name": "Pixell Administrator",
+      "created_at": "2026-10-09T01:29:46.282Z",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "id": "u-admin",
+      "email": "admin@pixell.tv"
+    },
+    {
+      "role": "USER",
+      "updated_at": "2026-10-09T01:29:46.407Z",
+      "password_hash": "$2b$10$Y8fIDzJjwlkYyWeqXszg7eP7p..hDSiSzgiarVQW0BVNkahwdtFoe",
+      "name": "Alex Chen",
+      "created_at": "2026-10-09T01:29:46.407Z",
+      "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+      "id": "u-demo",
+      "email": "demo@pixell.tv"
+    },
+    {
+      "role": "USER",
+      "updated_at": "2026-10-09T01:29:46.514Z",
+      "password_hash": "$2b$10$JKnEEb7bClwS.OmLGYR8duhz1HjfmvlMhvc5CRCzK0CBpK1mu8qM6",
+      "name": "Sarah Jenkins",
+      "created_at": "2026-10-09T01:29:46.514Z",
+      "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+      "id": "u-sarah",
+      "email": "sarah@pixell.tv"
+    }
+  ],
+  "genres": [
+    {
+      "name": "Action & Adventure",
+      "id": "g-action",
+      "slug": "action-adventure"
+    },
+    {
+      "name": "Animation & Anime",
+      "id": "g-animation",
+      "slug": "animation-anime"
+    },
+    {
+      "name": "Comedy & Satire",
+      "id": "g-comedy",
+      "slug": "comedy-satire"
+    },
+    {
+      "name": "Crime & Noir",
+      "id": "g-crime",
+      "slug": "crime-noir"
+    },
+    {
+      "name": "Documentary & Tech",
+      "id": "g-documentary",
+      "slug": "documentary-tech"
+    },
+    {
+      "name": "Drama & Romance",
+      "id": "g-drama",
+      "slug": "drama-romance"
+    },
+    {
+      "name": "Fantasy & Supernatural",
+      "id": "g-fantasy",
+      "slug": "fantasy-supernatural"
+    },
+    {
+      "name": "Horror & Psychological",
+      "id": "g-horror",
+      "slug": "horror-psychological"
+    },
+    {
+      "name": "Mystery & Thriller",
+      "id": "g-mystery",
+      "slug": "mystery-thriller"
+    },
+    {
+      "name": "Sci-Fi & Cyberpunk",
+      "id": "g-scifi",
+      "slug": "scifi-cyberpunk"
+    }
+  ],
+  "movies": [
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&auto=format&fit=crop&q=80",
+      "country": "Australia",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2023,
+      "created_at": "2026-10-09T01:30:03.859Z",
+      "description": "A group of shipwreck survivors discover an uncharted archipelago inhabited by ancient megafauna and remnants of a lost civilization that defies modern science.",
+      "poster_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Beyond the Island",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "duration": 132,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:03.859Z",
+      "id": "m-beyond-the-island",
+      "is_featured": 1,
+      "slug": "beyond-the-island"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&auto=format&fit=crop&q=80",
+      "country": "New Zealand",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2023,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "In a world of floating sky islands and airship armadas, a rebellious captain leads an expedition into the eternal storm in search of the legendary Sky Haven.",
+      "poster_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Crimson Skies",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "duration": 140,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-crimson-skies",
+      "is_featured": 0,
+      "slug": "crimson-skies"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1920&auto=format&fit=crop&q=80",
+      "country": "United Kingdom",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:03.859Z",
+      "description": "When a quantum physicist accidentally creates a chronal loop, she must work backward through fractured timelines to prevent the disappearance of the Earth's atmosphere.",
+      "poster_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Echoes of Tomorrow",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "duration": 110,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:03.859Z",
+      "id": "m-echoes-of-tomorrow",
+      "is_featured": 0,
+      "slug": "echoes-of-tomorrow"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:03.859Z",
+      "description": "In a neon-drenched metropolis on the brink of ecological collapse, an elite cybernetic investigator unearths a clandestine conspiracy that threatens the city's artificial sun.",
+      "poster_url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Midnight Horizon",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "duration": 124,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:03.859Z",
+      "id": "m-midnight-horizon",
+      "is_featured": 1,
+      "slug": "midnight-horizon"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "R",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:03.859Z",
+      "description": "During the sweltering heat of 1989, three high school outcasts uncover an encrypted cassette tape that pulls them into a dangerous underworld of synthwave and espionage.",
+      "poster_url": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Neon Summer",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "duration": 105,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:03.859Z",
+      "id": "m-neon-summer",
+      "is_featured": 0,
+      "slug": "neon-summer"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "Disavowed by his own agency, an elite black-ops operative must team up with a rogue cyber analyst to neutralize an orbital weapons system before it activates.",
+      "poster_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Shadow Protocol",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "duration": 128,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-shadow-protocol",
+      "is_featured": 1,
+      "slug": "shadow-protocol"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "The true and dramatic story of a garage startup in 1997 that accidentally pioneered the foundation of artificial consciousness before being targeted by corporate titans.",
+      "poster_url": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Silicon Dreams",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "duration": 102,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-silicon-dreams",
+      "is_featured": 0,
+      "slug": "silicon-dreams"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "Humanity's first generation ship encounters a derelict alien megastructure drifting along the edge of the Kuiper belt, holding secrets to origin of life.",
+      "poster_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Stellar Odyssey",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "duration": 145,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-stellar-odyssey",
+      "is_featured": 1,
+      "slug": "stellar-odyssey"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "R",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "A retired detective driving across the Mojave Desert stumbles upon a deserted diner with a dark secret tying back to an unsolved disappearance from thirty years ago.",
+      "poster_url": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "The Forgotten Road",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "duration": 115,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-the-forgotten-road",
+      "is_featured": 0,
+      "slug": "the-forgotten-road"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&auto=format&fit=crop&q=80",
+      "country": "Canada",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:03.859Z",
+      "description": "Deep within the silence of the Arctic listening post, a lonely radio astronomer intercepts a repeating signal originating from outside the known universe.",
+      "poster_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "The Last Signal",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "duration": 118,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:03.859Z",
+      "id": "m-the-last-signal",
+      "is_featured": 1,
+      "slug": "the-last-signal"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1920&auto=format&fit=crop&q=80",
+      "country": "Japan",
+      "is_published": 1,
+      "rating": "R",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "Ten thousand meters under the Pacific Ocean, a deep-sea research station's drill pierces a subterranean chamber sealed for five hundred million years.",
+      "poster_url": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "The Silent Abyss",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "duration": 98,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-the-silent-abyss",
+      "is_featured": 0,
+      "slug": "the-silent-abyss"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920&auto=format&fit=crop&q=80",
+      "country": "Japan",
+      "is_published": 1,
+      "rating": "PG-13",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:03.860Z",
+      "description": "An underground hyper-car racer in Tokyo is blackmailed into executing high-speed getaway heists through hyper-dense elevated transit networks.",
+      "poster_url": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Velocity Drift",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "duration": 112,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:03.860Z",
+      "id": "m-velocity-drift",
+      "is_featured": 0,
+      "slug": "velocity-drift"
+    }
+  ],
+  "movie_genres": [
+    {
+      "id": "m-beyond-the-island_g-action",
+      "movie_id": "m-beyond-the-island",
+      "genre_id": "g-action"
+    },
+    {
+      "id": "m-beyond-the-island_g-drama",
+      "movie_id": "m-beyond-the-island",
+      "genre_id": "g-drama"
+    },
+    {
+      "id": "m-beyond-the-island_g-fantasy",
+      "movie_id": "m-beyond-the-island",
+      "genre_id": "g-fantasy"
+    },
+    {
+      "id": "m-crimson-skies_g-action",
+      "movie_id": "m-crimson-skies",
+      "genre_id": "g-action"
+    },
+    {
+      "id": "m-crimson-skies_g-animation",
+      "movie_id": "m-crimson-skies",
+      "genre_id": "g-animation"
+    },
+    {
+      "id": "m-crimson-skies_g-fantasy",
+      "movie_id": "m-crimson-skies",
+      "genre_id": "g-fantasy"
+    },
+    {
+      "id": "m-echoes-of-tomorrow_g-mystery",
+      "movie_id": "m-echoes-of-tomorrow",
+      "genre_id": "g-mystery"
+    },
+    {
+      "id": "m-echoes-of-tomorrow_g-scifi",
+      "movie_id": "m-echoes-of-tomorrow",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-midnight-horizon_g-action",
+      "movie_id": "m-midnight-horizon",
+      "genre_id": "g-action"
+    },
+    {
+      "id": "m-midnight-horizon_g-mystery",
+      "movie_id": "m-midnight-horizon",
+      "genre_id": "g-mystery"
+    },
+    {
+      "id": "m-midnight-horizon_g-scifi",
+      "movie_id": "m-midnight-horizon",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-neon-summer_g-action",
+      "movie_id": "m-neon-summer",
+      "genre_id": "g-action"
+    },
+    {
+      "id": "m-neon-summer_g-crime",
+      "movie_id": "m-neon-summer",
+      "genre_id": "g-crime"
+    },
+    {
+      "id": "m-neon-summer_g-mystery",
+      "movie_id": "m-neon-summer",
+      "genre_id": "g-mystery"
+    },
+    {
+      "id": "m-shadow-protocol_g-action",
+      "movie_id": "m-shadow-protocol",
+      "genre_id": "g-action"
+    },
+    {
+      "id": "m-shadow-protocol_g-crime",
+      "movie_id": "m-shadow-protocol",
+      "genre_id": "g-crime"
+    },
+    {
+      "id": "m-shadow-protocol_g-scifi",
+      "movie_id": "m-shadow-protocol",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-silicon-dreams_g-documentary",
+      "movie_id": "m-silicon-dreams",
+      "genre_id": "g-documentary"
+    },
+    {
+      "id": "m-silicon-dreams_g-drama",
+      "movie_id": "m-silicon-dreams",
+      "genre_id": "g-drama"
+    },
+    {
+      "id": "m-silicon-dreams_g-scifi",
+      "movie_id": "m-silicon-dreams",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-stellar-odyssey_g-adventure",
+      "movie_id": "m-stellar-odyssey",
+      "genre_id": "g-adventure"
+    },
+    {
+      "id": "m-stellar-odyssey_g-drama",
+      "movie_id": "m-stellar-odyssey",
+      "genre_id": "g-drama"
+    },
+    {
+      "id": "m-stellar-odyssey_g-scifi",
+      "movie_id": "m-stellar-odyssey",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-the-forgotten-road_g-crime",
+      "movie_id": "m-the-forgotten-road",
+      "genre_id": "g-crime"
+    },
+    {
+      "id": "m-the-forgotten-road_g-drama",
+      "movie_id": "m-the-forgotten-road",
+      "genre_id": "g-drama"
+    },
+    {
+      "id": "m-the-forgotten-road_g-mystery",
+      "movie_id": "m-the-forgotten-road",
+      "genre_id": "g-mystery"
+    },
+    {
+      "id": "m-the-last-signal_g-drama",
+      "movie_id": "m-the-last-signal",
+      "genre_id": "g-drama"
+    },
+    {
+      "id": "m-the-last-signal_g-mystery",
+      "movie_id": "m-the-last-signal",
+      "genre_id": "g-mystery"
+    },
+    {
+      "id": "m-the-last-signal_g-scifi",
+      "movie_id": "m-the-last-signal",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-the-silent-abyss_g-horror",
+      "movie_id": "m-the-silent-abyss",
+      "genre_id": "g-horror"
+    },
+    {
+      "id": "m-the-silent-abyss_g-mystery",
+      "movie_id": "m-the-silent-abyss",
+      "genre_id": "g-mystery"
+    },
+    {
+      "id": "m-the-silent-abyss_g-scifi",
+      "movie_id": "m-the-silent-abyss",
+      "genre_id": "g-scifi"
+    },
+    {
+      "id": "m-velocity-drift_g-action",
+      "movie_id": "m-velocity-drift",
+      "genre_id": "g-action"
+    },
+    {
+      "id": "m-velocity-drift_g-crime",
+      "movie_id": "m-velocity-drift",
+      "genre_id": "g-crime"
+    }
+  ],
+  "series": [
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&auto=format&fit=crop&q=80",
+      "country": "United Kingdom",
+      "is_published": 1,
+      "rating": "TV-14",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:04.210Z",
+      "description": "In an alternate renaissance empire powered by alchemical steam, an apprentice discovers the forbidden formula for transmutation of human memories.",
+      "poster_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "The Alchemist's Legacy",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:04.210Z",
+      "id": "s-alchemist-legacy",
+      "is_featured": 0,
+      "slug": "the-alchemists-legacy"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "TV-MA",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "In a sprawling metropolis divided into distinct chronological sectors from 1920s to 2150s, a temporal detective investigates crimes that span multiple centuries simultaneously.",
+      "poster_url": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Chrono City",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "id": "s-chrono-city",
+      "is_featured": 1,
+      "slug": "chrono-city"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1920&auto=format&fit=crop&q=80",
+      "country": "South Korea",
+      "is_published": 1,
+      "rating": "TV-MA",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "In 2099 Neo-Seoul, augmentations are mandatory for high-tier society. A street bio-hacker builds black-market neural patches to liberate lower-tier outcasts.",
+      "poster_url": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80",
+      "language": "Korean / English",
+      "title": "Cybernetic Dawn",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "id": "s-cybernetic-dawn",
+      "is_featured": 1,
+      "slug": "cybernetic-dawn"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "TV-14",
+      "release_year": 2025,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "A mechanized heavy armor squad defends the frontier colonies of Mars against insurgent drone swarms and corrupted terraforming supercomputers.",
+      "poster_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Iron Vanguard",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "id": "s-iron-vanguard",
+      "is_featured": 0,
+      "slug": "iron-vanguard"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1920&auto=format&fit=crop&q=80",
+      "country": "Germany",
+      "is_published": 1,
+      "rating": "TV-MA",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "An underground team of theoretical hackers build a bridge to parallel universes, only to discover that every hop creates an inevitable chain reaction across dimensions.",
+      "poster_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Quantum Drift",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "id": "s-quantum-drift",
+      "is_featured": 1,
+      "slug": "quantum-drift"
+    },
+    {
+      "backdrop_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&auto=format&fit=crop&q=80",
+      "country": "United States",
+      "is_published": 1,
+      "rating": "TV-MA",
+      "release_year": 2024,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "When a teenager vanishes into the mist of a scenic Pacific Northwest mountain town, the sheriff uncovers a century of occult history and whispers from the forest.",
+      "poster_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&auto=format&fit=crop&q=80",
+      "language": "English",
+      "title": "Whispering Pines",
+      "trailer_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "id": "s-whispering-pines",
+      "is_featured": 0,
+      "slug": "whispering-pines"
+    }
+  ],
+  "series_genres": [
+    {
+      "id": "s-alchemist-legacy_g-drama",
+      "genre_id": "g-drama",
+      "series_id": "s-alchemist-legacy"
+    },
+    {
+      "id": "s-alchemist-legacy_g-fantasy",
+      "genre_id": "g-fantasy",
+      "series_id": "s-alchemist-legacy"
+    },
+    {
+      "id": "s-alchemist-legacy_g-mystery",
+      "genre_id": "g-mystery",
+      "series_id": "s-alchemist-legacy"
+    },
+    {
+      "id": "s-chrono-city_g-crime",
+      "genre_id": "g-crime",
+      "series_id": "s-chrono-city"
+    },
+    {
+      "id": "s-chrono-city_g-mystery",
+      "genre_id": "g-mystery",
+      "series_id": "s-chrono-city"
+    },
+    {
+      "id": "s-chrono-city_g-scifi",
+      "genre_id": "g-scifi",
+      "series_id": "s-chrono-city"
+    },
+    {
+      "id": "s-cybernetic-dawn_g-action",
+      "genre_id": "g-action",
+      "series_id": "s-cybernetic-dawn"
+    },
+    {
+      "id": "s-cybernetic-dawn_g-crime",
+      "genre_id": "g-crime",
+      "series_id": "s-cybernetic-dawn"
+    },
+    {
+      "id": "s-cybernetic-dawn_g-scifi",
+      "genre_id": "g-scifi",
+      "series_id": "s-cybernetic-dawn"
+    },
+    {
+      "id": "s-iron-vanguard_g-action",
+      "genre_id": "g-action",
+      "series_id": "s-iron-vanguard"
+    },
+    {
+      "id": "s-iron-vanguard_g-animation",
+      "genre_id": "g-animation",
+      "series_id": "s-iron-vanguard"
+    },
+    {
+      "id": "s-iron-vanguard_g-scifi",
+      "genre_id": "g-scifi",
+      "series_id": "s-iron-vanguard"
+    },
+    {
+      "id": "s-quantum-drift_g-action",
+      "genre_id": "g-action",
+      "series_id": "s-quantum-drift"
+    },
+    {
+      "id": "s-quantum-drift_g-mystery",
+      "genre_id": "g-mystery",
+      "series_id": "s-quantum-drift"
+    },
+    {
+      "id": "s-quantum-drift_g-scifi",
+      "genre_id": "g-scifi",
+      "series_id": "s-quantum-drift"
+    },
+    {
+      "id": "s-whispering-pines_g-drama",
+      "genre_id": "g-drama",
+      "series_id": "s-whispering-pines"
+    },
+    {
+      "id": "s-whispering-pines_g-horror",
+      "genre_id": "g-horror",
+      "series_id": "s-whispering-pines"
+    },
+    {
+      "id": "s-whispering-pines_g-mystery",
+      "genre_id": "g-mystery",
+      "series_id": "s-whispering-pines"
+    }
+  ],
+  "seasons": [
+    {
+      "updated_at": "2026-10-09T01:30:04.210Z",
+      "season_number": 1,
+      "created_at": "2026-10-09T01:30:04.210Z",
+      "id": "sea-alch-s1",
+      "title": "Season 1: The Philosopher's Ash",
+      "series_id": "s-alchemist-legacy"
+    },
+    {
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "season_number": 1,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "id": "sea-chrono-s1",
+      "title": "Season 1: Fractured Hours",
+      "series_id": "s-chrono-city"
+    },
+    {
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "season_number": 2,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "id": "sea-chrono-s2",
+      "title": "Season 2: Continuum Drift",
+      "series_id": "s-chrono-city"
+    },
+    {
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "season_number": 1,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "id": "sea-cyber-s1",
+      "title": "Season 1: Protocol Zero",
+      "series_id": "s-cybernetic-dawn"
+    },
+    {
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "season_number": 1,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "id": "sea-iron-s1",
+      "title": "Season 1: Red Dust",
+      "series_id": "s-iron-vanguard"
+    },
+    {
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "season_number": 1,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "id": "sea-pines-s1",
+      "title": "Season 1: Deep Roots",
+      "series_id": "s-whispering-pines"
+    },
+    {
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "season_number": 1,
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "id": "sea-quantum-s1",
+      "title": "Season 1: Dimension Zero",
+      "series_id": "s-quantum-drift"
+    }
+  ],
+  "episodes": [
+    {
+      "duration": 48,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:04.210Z",
+      "release_date": "2024-10-10",
+      "created_at": "2026-10-09T01:30:04.210Z",
+      "description": "Apprentice Leo unravels a cipher left inside his master's hidden laboratory in the royal palace vaults.",
+      "season_id": "sea-alch-s1",
+      "id": "ep-alch-s1e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&auto=format&fit=crop&q=80",
+      "title": "The Golden Crucible"
+    },
+    {
+      "duration": 50,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.210Z",
+      "release_date": "2024-10-17",
+      "created_at": "2026-10-09T01:30:04.210Z",
+      "description": "Leo flees the Inquisition with a young runaway noble whose memories hold the final element of the formula.",
+      "season_id": "sea-alch-s1",
+      "id": "ep-alch-s1e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format&fit=crop&q=80",
+      "title": "Mercury and Salt"
+    },
+    {
+      "duration": 52,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-03-01",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Detective Marcus Vance investigates the impossible murder of a senator killed by a weapon engineered one hundred years in the future.",
+      "season_id": "sea-chrono-s1",
+      "id": "ep-chrono-s1e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=400&auto=format&fit=crop&q=80",
+      "title": "The Zero Hour"
+    },
+    {
+      "duration": 48,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-03-08",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "A lead takes Vance to Sector 1940, where a jazz singer may be transmitting forbidden future stock algorithms.",
+      "season_id": "sea-chrono-s1",
+      "id": "ep-chrono-s1e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400&auto=format&fit=crop&q=80",
+      "title": "Echoes in the Rain"
+    },
+    {
+      "duration": 55,
+      "episode_number": 3,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-03-15",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "A massive temporal distortion wave hits the downtown core, forcing rival factions into a deadly ceasefire.",
+      "season_id": "sea-chrono-s1",
+      "id": "ep-chrono-s1e3",
+      "thumbnail_url": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&auto=format&fit=crop&q=80",
+      "title": "The Grand Clocktower"
+    },
+    {
+      "duration": 50,
+      "episode_number": 4,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-03-22",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Vance encounters an alternate version of his late partner, triggering a catastrophic breach in the city's integrity shield.",
+      "season_id": "sea-chrono-s1",
+      "id": "ep-chrono-s1e4",
+      "thumbnail_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop&q=80",
+      "title": "Paradox Protocol"
+    },
+    {
+      "duration": 60,
+      "episode_number": 5,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-03-29",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "In the season finale, the true architect behind the time fractures is revealed atop the spire of Chrono One.",
+      "season_id": "sea-chrono-s1",
+      "id": "ep-chrono-s1e5",
+      "thumbnail_url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&auto=format&fit=crop&q=80",
+      "title": "The Collapse of 2150"
+    },
+    {
+      "duration": 54,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-10",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Six months after the collapse, rogue anomalies begin appearing outside the quarantine zone.",
+      "season_id": "sea-chrono-s2",
+      "id": "ep-chrono-s2e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&auto=format&fit=crop&q=80",
+      "title": "The Shattered Clock"
+    },
+    {
+      "duration": 51,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-17",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Vance and a new recruit hunt an elusive entity that blinks between timelines during combat.",
+      "season_id": "sea-chrono-s2",
+      "id": "ep-chrono-s2e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&auto=format&fit=crop&q=80",
+      "title": "Quantum Shadows"
+    },
+    {
+      "duration": 49,
+      "episode_number": 3,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-24",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "An illegal neuro-memory market opens in Sector 2010, selling preserved moments before the world shifted.",
+      "season_id": "sea-chrono-s2",
+      "id": "ep-chrono-s2e3",
+      "thumbnail_url": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&auto=format&fit=crop&q=80",
+      "title": "Memory Grid"
+    },
+    {
+      "duration": 62,
+      "episode_number": 4,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-31",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "A race to the core reactor will determine whether all timelines converge or vanish into absolute void.",
+      "season_id": "sea-chrono-s2",
+      "id": "ep-chrono-s2e4",
+      "thumbnail_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&auto=format&fit=crop&q=80",
+      "title": "The Final Epoch"
+    },
+    {
+      "duration": 52,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-05",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Min-ho hacks a proprietary neural chip to save a street kid, accidentally unlocking a suppressed corporate memory file.",
+      "season_id": "sea-cyber-s1",
+      "id": "ep-cyber-s1e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=400&auto=format&fit=crop&q=80",
+      "title": "Synapse Overload"
+    },
+    {
+      "duration": 48,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-12",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Corporate enforcers raid the underground clinic as Min-ho scrambles across sky bridges to evade drone trackers.",
+      "season_id": "sea-cyber-s1",
+      "id": "ep-cyber-s1e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400&auto=format&fit=crop&q=80",
+      "title": "Neon Alley"
+    },
+    {
+      "duration": 54,
+      "episode_number": 3,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-01-19",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "An AI construct claiming to be the city's original builder contacts Min-ho with an offer for an alliance.",
+      "season_id": "sea-cyber-s1",
+      "id": "ep-cyber-s1e3",
+      "thumbnail_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop&q=80",
+      "title": "Ghost Protocol"
+    },
+    {
+      "duration": 44,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-02-01",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Commander Thorne's mech unit drops into Olympus Mons to defend the primary oxygen atmospheric scrubbers.",
+      "season_id": "sea-iron-s1",
+      "id": "ep-iron-s1e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&auto=format&fit=crop&q=80",
+      "title": "Siege of Sector 4"
+    },
+    {
+      "duration": 46,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-02-08",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "An autonomous AI subroutine takes control of an experimental siege crawler during a sandstorm.",
+      "season_id": "sea-iron-s1",
+      "id": "ep-iron-s1e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop&q=80",
+      "title": "Ghost in the Chassis"
+    },
+    {
+      "duration": 49,
+      "episode_number": 3,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2025-02-15",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "A rescue team navigates geothermal lava tubes to extract trapped engineers before a tectonic meltdown.",
+      "season_id": "sea-iron-s1",
+      "id": "ep-iron-s1e3",
+      "thumbnail_url": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&auto=format&fit=crop&q=80",
+      "title": "The Core Breach"
+    },
+    {
+      "duration": 50,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-09-06",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Sheriff Cole investigates a bicycle found standing upright in the center of an ancient stone circle in the woods.",
+      "season_id": "sea-pines-s1",
+      "id": "ep-pines-s1e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&auto=format&fit=crop&q=80",
+      "title": "Fog on the Ridge"
+    },
+    {
+      "duration": 48,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-09-13",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "The town's power grid fails during a storm as unearthly frequencies resonate through the lake beds.",
+      "season_id": "sea-pines-s1",
+      "id": "ep-pines-s1e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format&fit=crop&q=80",
+      "title": "Voices Beneath the Lake"
+    },
+    {
+      "duration": 53,
+      "episode_number": 3,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-09-20",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "A hidden cellar under the abandoned timber mill reveals a detailed map of symbols matching constellations that do not exist.",
+      "season_id": "sea-pines-s1",
+      "id": "ep-pines-s1e3",
+      "thumbnail_url": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&auto=format&fit=crop&q=80",
+      "title": "The Old Mill"
+    },
+    {
+      "duration": 56,
+      "episode_number": 4,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-09-27",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "The elders of Whispering Pines gather as the annual eclipse draws closer and the woods begin to move.",
+      "season_id": "sea-pines-s1",
+      "id": "ep-pines-s1e4",
+      "thumbnail_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&auto=format&fit=crop&q=80",
+      "title": "The Watchers"
+    },
+    {
+      "duration": 47,
+      "episode_number": 1,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-04-05",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Dr. Elena Vance activates the Drift Core in an abandoned grain silo, opening a gate to an Earth where electricity was never discovered.",
+      "season_id": "sea-quantum-s1",
+      "id": "ep-quantum-s1e1",
+      "thumbnail_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400&auto=format&fit=crop&q=80",
+      "title": "First Jump"
+    },
+    {
+      "duration": 51,
+      "episode_number": 2,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-04-12",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Trapped on an Earth ruled by an AI collective, the crew must scavenge rare isotopes to recharge their displacement engine.",
+      "season_id": "sea-quantum-s1",
+      "id": "ep-quantum-s1e2",
+      "thumbnail_url": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400&auto=format&fit=crop&q=80",
+      "title": "The Mirror City"
+    },
+    {
+      "duration": 45,
+      "episode_number": 3,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-04-19",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "An emergency jump drops the team into a void universe where sound and gravity fluctuate randomly.",
+      "season_id": "sea-quantum-s1",
+      "id": "ep-quantum-s1e3",
+      "thumbnail_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&auto=format&fit=crop&q=80",
+      "title": "Null State"
+    },
+    {
+      "duration": 58,
+      "episode_number": 4,
+      "video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "updated_at": "2026-10-09T01:30:04.209Z",
+      "release_date": "2024-04-26",
+      "created_at": "2026-10-09T01:30:04.209Z",
+      "description": "Returning home, Elena realizes that while everything looks identical, everyone they know has subtly different memories.",
+      "season_id": "sea-quantum-s1",
+      "id": "ep-quantum-s1e4",
+      "thumbnail_url": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&auto=format&fit=crop&q=80",
+      "title": "Return Vector"
+    }
+  ],
+  "watch_progress": [
+    {
+      "duration_seconds": 7440,
+      "episode_id": null,
+      "updated_at": "2026-10-09T01:30:04.935Z",
+      "user_id": "u-demo",
+      "progress_seconds": 1840,
+      "completed": 0,
+      "id": "wp-1",
+      "movie_id": "m-midnight-horizon"
+    },
+    {
+      "duration_seconds": 3120,
+      "episode_id": "ep-chrono-s1e1",
+      "updated_at": "2026-10-09T01:30:04.935Z",
+      "user_id": "u-demo",
+      "progress_seconds": 920,
+      "completed": 0,
+      "id": "wp-2",
+      "movie_id": null
+    },
+    {
+      "id": "5e34d301-88c2-45bb-b889-48608a04a495",
+      "user_id": "u-demo",
+      "movie_id": "980431",
+      "episode_id": null,
+      "tmdb_id": "980431",
+      "media_type": "tv",
+      "title": "Avatar Aang: The Last Airbender",
+      "poster_url": "https://image.tmdb.org/t/p/w500/3sgnSfNT27Bx5O5ukr7B26mhEQq.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/original/ezbrL1dMymKQZw7mDEWa2ZTzN7d.jpg",
+      "season_number": 1,
+      "episode_number": 1,
+      "episode_title": null,
+      "progress_seconds": 600,
+      "duration_seconds": 7200,
+      "completed": 0,
+      "updated_at": "2026-10-09T02:10:51.485Z"
+    }
+  ],
+  "watchlist": [
+    {
+      "user_id": "u-demo",
+      "created_at": "2026-10-09T01:30:04.797Z",
+      "id": "wl-1",
+      "movie_id": "m-midnight-horizon",
+      "series_id": null
+    },
+    {
+      "user_id": "u-demo",
+      "created_at": "2026-10-09T01:30:04.797Z",
+      "id": "wl-2",
+      "movie_id": null,
+      "series_id": "s-chrono-city"
+    },
+    {
+      "user_id": "u-demo",
+      "created_at": "2026-10-09T01:30:04.797Z",
+      "id": "wl-3",
+      "movie_id": "m-the-last-signal",
+      "series_id": null
+    }
+  ],
+  "watch_history": [
+    {
+      "episode_id": null,
+      "user_id": "u-demo",
+      "id": "wh-1",
+      "movie_id": "m-midnight-horizon",
+      "watched_at": "2026-10-09T01:30:05.073Z"
+    },
+    {
+      "episode_id": "ep-chrono-s1e1",
+      "user_id": "u-demo",
+      "id": "wh-2",
+      "movie_id": null,
+      "watched_at": "2026-10-09T01:30:05.073Z"
+    },
+    {
+      "episode_id": null,
+      "user_id": "u-demo",
+      "id": "wh-3",
+      "movie_id": "m-beyond-the-island",
+      "watched_at": "2026-10-09T01:30:05.073Z"
+    },
+    {
+      "id": "918d250e-0eb4-4940-9f43-798e224cb1fe",
+      "user_id": "u-demo",
+      "movie_id": "980431",
+      "episode_id": null,
+      "tmdb_id": "980431",
+      "media_type": "tv",
+      "title": "Avatar Aang: The Last Airbender",
+      "poster_url": "https://image.tmdb.org/t/p/w500/3sgnSfNT27Bx5O5ukr7B26mhEQq.jpg",
+      "backdrop_url": "https://image.tmdb.org/t/p/original/ezbrL1dMymKQZw7mDEWa2ZTzN7d.jpg",
+      "season_number": 1,
+      "episode_number": 1,
+      "episode_title": null,
+      "watched_at": "2026-10-09T02:10:51.485Z"
+    }
+  ]
+}
