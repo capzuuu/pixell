@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { MobileNavbar } from '../components/MobileNavbar';
-import { X, Heart } from 'lucide-react';
+import { X, Heart, Facebook, Github, Mail } from 'lucide-react';
 
 export const MainLayout: React.FC = () => {
   const [donateModalOpen, setDonateModalOpen] = useState<boolean>(false);
@@ -21,8 +21,39 @@ export const MainLayout: React.FC = () => {
       {/* Netflix Authentic Footer */}
       <footer className="bg-[#141414] text-[#808080] text-[13px] py-16 px-4 md:px-12 lg:px-20 border-t border-white/5">
         <div className="max-w-6xl mx-auto space-y-8">
-          <div className="flex items-center gap-3">
-            <img src="/pixelLogo.png" alt="Pixell" className="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <img src="/pixelLogo.png" alt="Pixell" className="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity" />
+            </div>
+
+            {/* Social & Contact Icons */}
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.facebook.com/m.mjoemar.capitle.6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/5 hover:bg-[#1877F2]/20 text-zinc-400 hover:text-[#1877F2] transition-all hover:scale-110"
+                title="Facebook: Joemar Capitle"
+              >
+                <Facebook className="w-4.5 h-4.5" />
+              </a>
+              <a
+                href="https://github.com/capzuuu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/5 hover:bg-white/20 text-zinc-400 hover:text-white transition-all hover:scale-110"
+                title="GitHub: capzuuu"
+              >
+                <Github className="w-4.5 h-4.5" />
+              </a>
+              <a
+                href="mailto:joemarlabendia4@gmail.com"
+                className="p-2 rounded-full bg-white/5 hover:bg-[#EA4335]/20 text-zinc-400 hover:text-[#EA4335] transition-all hover:scale-110"
+                title="Gmail: joemarlabendia4@gmail.com"
+              >
+                <Mail className="w-4.5 h-4.5" />
+              </a>
+            </div>
           </div>
 
           {/* GCash Donation Trigger */}
@@ -122,6 +153,35 @@ export const MainLayout: React.FC = () => {
             <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-[#007CFF] font-semibold">
               <Heart className="w-3.5 h-3.5 fill-[#007CFF]" />
               <span>Thank you for supporting Pixell!</span>
+            </div>
+
+            {/* Social Links in Modal */}
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-center gap-4">
+              <a
+                href="https://www.facebook.com/m.mjoemar.capitle.6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/5 hover:bg-[#1877F2]/20 text-zinc-400 hover:text-[#1877F2] transition-colors"
+                title="Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a
+                href="https://github.com/capzuuu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/5 hover:bg-white/20 text-zinc-400 hover:text-white transition-colors"
+                title="GitHub"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+              <a
+                href="mailto:joemarlabendia4@gmail.com"
+                className="p-2 rounded-full bg-white/5 hover:bg-[#EA4335]/20 text-zinc-400 hover:text-[#EA4335] transition-colors"
+                title="Gmail"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
