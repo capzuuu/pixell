@@ -27,31 +27,31 @@ export const MainLayout: React.FC = () => {
             </div>
 
             {/* Social & Contact Icons */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <a
                 href="https://www.facebook.com/m.mjoemar.capitle.6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/5 hover:bg-[#1877F2]/20 text-zinc-400 hover:text-[#1877F2] transition-all hover:scale-110"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-[#1877F2]/20 text-zinc-400 hover:text-[#1877F2] transition-all hover:scale-105"
                 title="Facebook: Joemar Capitle"
               >
-                <Facebook className="w-4.5 h-4.5" />
+                <Facebook className="w-3.5 h-3.5" />
               </a>
               <a
                 href="https://github.com/capzuuu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/5 hover:bg-white/20 text-zinc-400 hover:text-white transition-all hover:scale-110"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-white/20 text-zinc-400 hover:text-white transition-all hover:scale-105"
                 title="GitHub: capzuuu"
               >
-                <Github className="w-4.5 h-4.5" />
+                <Github className="w-3.5 h-3.5" />
               </a>
               <a
                 href="mailto:joemarlabendia4@gmail.com"
-                className="p-2 rounded-full bg-white/5 hover:bg-[#EA4335]/20 text-zinc-400 hover:text-[#EA4335] transition-all hover:scale-110"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-[#EA4335]/20 text-zinc-400 hover:text-[#EA4335] transition-all hover:scale-105"
                 title="Gmail: joemarlabendia4@gmail.com"
               >
-                <Mail className="w-4.5 h-4.5" />
+                <Mail className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
@@ -156,31 +156,31 @@ export const MainLayout: React.FC = () => {
             </div>
 
             {/* Social Links in Modal */}
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-center gap-4">
+            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-center gap-3">
               <a
                 href="https://www.facebook.com/m.mjoemar.capitle.6"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/5 hover:bg-[#1877F2]/20 text-zinc-400 hover:text-[#1877F2] transition-colors"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-[#1877F2]/20 text-zinc-400 hover:text-[#1877F2] transition-colors"
                 title="Facebook"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-3.5 h-3.5" />
               </a>
               <a
                 href="https://github.com/capzuuu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/5 hover:bg-white/20 text-zinc-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-white/20 text-zinc-400 hover:text-white transition-colors"
                 title="GitHub"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-3.5 h-3.5" />
               </a>
               <a
                 href="mailto:joemarlabendia4@gmail.com"
-                className="p-2 rounded-full bg-white/5 hover:bg-[#EA4335]/20 text-zinc-400 hover:text-[#EA4335] transition-colors"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-[#EA4335]/20 text-zinc-400 hover:text-[#EA4335] transition-colors"
                 title="Gmail"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
