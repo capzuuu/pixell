@@ -96,15 +96,27 @@ export const NetflixCard: React.FC<NetflixCardProps> = ({
 
   return (
     <div
-      className={`relative ${isGrid ? 'w-full' : 'shrink-0'} group select-none`}
+      className={`relative ${isGrid ? 'w-full' : 'shrink-0'} group select-none netflix-card-container`}
       style={isGrid ? undefined : { width: aspect === 'poster' ? 'clamp(120px, 34vw, 180px)' : 'clamp(165px, 48vw, 260px)' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Base Card */}
       <div
+        tabIndex={0}
+        role="button"
+        data-tv-focus="true"
+        data-tv-card="true"
+        data-tv-id={targetId}
+        aria-label={item.title}
         onClick={handleOpenDetail}
-        className={`relative w-full rounded-md overflow-hidden bg-[#181818] cursor-pointer transition-transform duration-300 ${
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOpenDetail(e as any);
+          }
+        }}
+        className={`relative w-full rounded-md overflow-hidden bg-[#181818] cursor-pointer transition-transform duration-300 focus:outline-none ${
           aspect === 'poster' ? 'aspect-[2/3]' : 'aspect-video'
         }`}
       >

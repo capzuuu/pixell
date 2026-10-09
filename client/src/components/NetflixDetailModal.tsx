@@ -155,8 +155,10 @@ export const NetflixDetailModal: React.FC = () => {
           {/* Close Button */}
           <button
             onClick={closeModal}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#181818]/80 hover:bg-[#282828] text-white flex items-center justify-center border border-white/10 transition-colors z-20"
-            title="Close"
+            data-tv-close="true"
+            data-tv-focus="true"
+            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#181818]/80 hover:bg-[#282828] text-white flex items-center justify-center border border-white/10 transition-colors z-20 focus:outline-none"
+            title="Close (ESC / Back)"
           >
             <X className="w-5 h-5" />
           </button>
@@ -172,6 +174,8 @@ export const NetflixDetailModal: React.FC = () => {
                 {/* Netflix White Play Button */}
                 <button
                   onClick={handlePlayMain}
+                  data-tv-focus="true"
+                  data-tv-play="true"
                   className="flex items-center gap-2 px-6 py-2.5 rounded-md bg-white hover:bg-white/85 text-black font-extrabold text-sm md:text-base shadow-lg transition-transform hover:scale-105 active:scale-95"
                 >
                   <Play className="w-5 h-5 fill-black" />
@@ -181,6 +185,7 @@ export const NetflixDetailModal: React.FC = () => {
                 {/* Add to List Round Button */}
                 <button
                   onClick={handleToggleWatchlist}
+                  data-tv-focus="true"
                   className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-transform hover:scale-110 active:scale-95 ${
                     saved
                       ? 'bg-white/20 border-white text-white'

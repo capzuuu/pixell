@@ -5,7 +5,10 @@ import { WatchlistProvider } from './store/WatchlistContext';
 import { ToastProvider } from './store/ToastContext';
 import { TitleModalProvider } from './store/TitleModalContext';
 import { ProfileProvider } from './store/ProfileContext';
+import { TVRemoteProvider } from './store/TVRemoteContext';
 import { NetflixDetailModal } from './components/NetflixDetailModal';
+import { TVRemoteGuide } from './components/TVRemoteGuide';
+import { VirtualTVRemote } from './components/VirtualTVRemote';
 
 // Layouts
 import { MainLayout } from './layouts/MainLayout';
@@ -30,34 +33,40 @@ export function App() {
           <ProfileProvider>
             <WatchlistProvider>
               <TitleModalProvider>
-                <Routes>
-                  {/* Standalone Profiles Route */}
-                  <Route path="/profiles" element={<Profiles />} />
-                  <Route path="/manage-profiles" element={<Profiles />} />
+                <TVRemoteProvider>
+                  <Routes>
+                    {/* Standalone Profiles Route */}
+                    <Route path="/profiles" element={<Profiles />} />
+                    <Route path="/manage-profiles" element={<Profiles />} />
 
-                  {/* Standalone Player Routes (Full viewport immersion) */}
-                  <Route path="/watch/tv/:tmdbId/:season/:episode" element={<Player />} />
-                  <Route path="/watch/:type/:id/:season/:episode" element={<Player />} />
-                  <Route path="/watch/:type/:id" element={<Player />} />
+                    {/* Standalone Player Routes (Full viewport immersion) */}
+                    <Route path="/watch/tv/:tmdbId/:season/:episode" element={<Player />} />
+                    <Route path="/watch/:type/:id/:season/:episode" element={<Player />} />
+                    <Route path="/watch/:type/:id" element={<Player />} />
 
-                  {/* Main Public & Viewer Layout */}
-                  <Route element={<MainLayout />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/movies" element={<Movies />} />
-                    <Route path="/movie/:slug" element={<MovieDetail />} />
-                    <Route path="/series" element={<Series />} />
-                    <Route path="/series/:slug" element={<SeriesDetail />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/my-list" element={<MyList />} />
-                    <Route path="/history" element={<WatchHistory />} />
-                  </Route>
+                    {/* Main Public & Viewer Layout */}
+                    <Route element={<MainLayout />}>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/movies" element={<Movies />} />
+                      <Route path="/movie/:slug" element={<MovieDetail />} />
+                      <Route path="/series" element={<Series />} />
+                      <Route path="/series/:slug" element={<SeriesDetail />} />
+                      <Route path="/search" element={<Search />} />
+                      <Route path="/my-list" element={<MyList />} />
+                      <Route path="/history" element={<WatchHistory />} />
+                    </Route>
 
-                  {/* Catch-all Fallback */}
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
+                    {/* Catch-all Fallback */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
 
-                {/* Global Netflix Details Modal */}
-                <NetflixDetailModal />
+                  {/* Global Netflix Details Modal */}
+                  <NetflixDetailModal />
+
+                  {/* Smart TV Remote Overlay & Guide */}
+                  <TVRemoteGuide />
+                  <VirtualTVRemote />
+                </TVRemoteProvider>
               </TitleModalProvider>
             </WatchlistProvider>
           </ProfileProvider>

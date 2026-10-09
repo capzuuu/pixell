@@ -115,6 +115,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ items }) => {
             {/* White Play Button */}
             <button
               onClick={handlePlay}
+              data-tv-focus="true"
+              data-tv-play="true"
               className="px-7 py-2.5 md:py-3 rounded-md bg-white hover:bg-white/80 text-black font-extrabold text-sm md:text-base flex items-center gap-2.5 shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Play className="w-5 h-5 fill-black" />
@@ -124,6 +126,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ items }) => {
             {/* Translucent Gray More Info Button */}
             <button
               onClick={handleMoreInfo}
+              data-tv-focus="true"
               className="px-6 py-2.5 md:py-3 rounded-md bg-[#6d6d6e]/70 hover:bg-[#6d6d6e]/40 text-white font-bold text-sm md:text-base flex items-center gap-2 backdrop-blur-md transition-transform hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Info className="w-5 h-5" />

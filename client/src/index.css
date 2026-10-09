@@ -107,3 +107,30 @@
 .netflix-card-shadow {
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.9);
 }
+
+/* =========================================================
+   📺 Smart TV & Android TV 10-Foot Focus Navigation Styles
+   ========================================================= */
+body.tv-mode {
+  scroll-behavior: smooth;
+}
+
+body.tv-mode a:focus,
+body.tv-mode button:focus,
+body.tv-mode [tabindex="0"]:focus,
+body.tv-mode [data-tv-focus="true"]:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px #E50914, 0 0 25px rgba(229, 9, 20, 0.85) !important;
+  transform: scale(1.06);
+  transition: transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.16s ease-out;
+  z-index: 50 !important;
+}
+
+body.tv-mode .netflix-card-container:focus,
+body.tv-mode [data-tv-card="true"]:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3.5px #FFFFFF, 0 0 32px rgba(229, 9, 20, 0.95) !important;
+  transform: scale(1.08) translateY(-4px) !important;
+  z-index: 60 !important;
+}
+

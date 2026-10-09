@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Bell, X, ChevronDown, Cast, Flame } from 'lucide-react';
+import { Search, Bell, X, ChevronDown, Cast, Flame, Tv } from 'lucide-react';
 import { tmdbService } from '../services/tmdbService';
 import { SearchPreviewDropdown } from './SearchPreviewDropdown';
 import { Genre } from '../types';
+import { useTVRemote } from '../store/TVRemoteContext';
 
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isTVMode, toggleTVMode, toggleVirtualRemote } = useTVRemote();
 
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
@@ -192,9 +194,24 @@ export const Navbar: React.FC = () => {
               )}
             </div>
 
+            {/* Smart TV Remote Mode Button */}
+            <button
+              onClick={toggleVirtualRemote}
+              data-tv-focus="true"
+              className={`p-1.5 rounded-full transition-all duration-200 ${
+                isTVMode
+                  ? 'text-red-500 bg-red-500/10 shadow-lg shadow-red-500/20'
+                  : 'text-white hover:text-red-400 hover:bg-white/5'
+              }`}
+              title="Smart TV Remote Controls & 10ft Mode"
+            >
+              <Tv className={`w-5 h-5 ${isTVMode ? 'animate-pulse' : ''}`} />
+            </button>
+
             {/* Sign In Button */}
             <button
               onClick={() => { }}
+              data-tv-focus="true"
               className="px-3 sm:px-4 py-1.5 rounded-sm bg-[#E50914] hover:bg-[#C11119] text-white font-bold text-xs sm:text-sm transition-colors shadow cursor-pointer"
             >
               Sign In
