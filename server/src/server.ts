@@ -8,8 +8,27 @@ import { errorHandler } from './middleware/errorHandler';
 const app = express();
 
 // Middlewares
+const allowedOrigins = [
+  ENV.CORS_ORIGIN,
+  'https://pixell-sable.vercel.app',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:3000',
+].flatMap(o => (o && o.includes(',') ? o.split(',').map(s => s.trim()) : [o])).filter(Boolean);
+
 app.use(cors({
-  origin: [ENV.CORS_ORIGIN, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (
+      ENV.CORS_ORIGIN === '*' ||
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.vercel.app')
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 

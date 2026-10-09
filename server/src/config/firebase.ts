@@ -21,22 +21,38 @@ export function initFirebaseAdmin(): App | null {
     // 1. Check for explicit JSON service account key file
     const potentialPaths = [
       ENV.FIREBASE_SERVICE_ACCOUNT_PATH ? path.resolve(ENV.FIREBASE_SERVICE_ACCOUNT_PATH) : '',
+      '/etc/secrets/serviceAccountKey.json',
+      '/etc/secrets/service_account.json',
       path.resolve(__dirname, '../../serviceAccountKey.json'),
       path.resolve(__dirname, '../../../serviceAccountKey.json'),
       path.resolve(process.cwd(), 'serviceAccountKey.json')
     ].filter(Boolean);
 
     let credential = null;
-    for (const p of potentialPaths) {
-      if (fs.existsSync(p)) {
-        try {
-          const raw = fs.readFileSync(p, 'utf-8');
-          const serviceAccount = JSON.parse(raw);
-          credential = cert(serviceAccount);
-          console.log(`🔥 [Firebase Admin] Loaded service account credentials from: ${p}`);
-          break;
-        } catch (e) {
-          console.warn(`⚠️ [Firebase Admin] Found key at ${p} but failed to parse:`, e);
+
+    // Check for inline JSON environment variable
+    if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
+      try {
+        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+        credential = cert(serviceAccount);
+        console.log('🔥 [Firebase Admin] Loaded service account credentials from FIREBASE_SERVICE_ACCOUNT_JSON env variable.');
+      } catch (e) {
+        console.warn('⚠️ [Firebase Admin] Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON:', e);
+      }
+    }
+
+    if (!credential) {
+      for (const p of potentialPaths) {
+        if (fs.existsSync(p)) {
+          try {
+            const raw = fs.readFileSync(p, 'utf-8');
+            const serviceAccount = JSON.parse(raw);
+            credential = cert(serviceAccount);
+            console.log(`🔥 [Firebase Admin] Loaded service account credentials from: ${p}`);
+            break;
+          } catch (e) {
+            console.warn(`⚠️ [Firebase Admin] Found key at ${p} but failed to parse:`, e);
+          }
         }
       }
     }
