@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import authRoutes from './authRoutes';
 import movieRoutes from './movieRoutes';
 import seriesRoutes from './seriesRoutes';
@@ -24,7 +24,7 @@ router.use('/search', searchRoutes);
 router.use('/tmdb', tmdbRoutes);
 
 // Health check endpoint
-router.get('/health', (req, res) => {
+router.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString(), service: 'Pixell Streaming API' });
 });
 

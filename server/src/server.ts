@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { ENV } from './config/env';
 import { dbManager } from './config/db';
@@ -17,7 +17,7 @@ const allowedOrigins = [
 ].flatMap(o => (o && o.includes(',') ? o.split(',').map(s => s.trim()) : [o])).filter(Boolean);
 
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
     // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
     if (!origin) return callback(null, true);
     if (
@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Request logging in development
 if (ENV.NODE_ENV === 'development') {
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
     res.on('finish', () => {
       const duration = Date.now() - start;
@@ -51,7 +51,7 @@ if (ENV.NODE_ENV === 'development') {
 app.use('/api', apiRoutes);
 
 // Root fallback / Welcome
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.json({
     name: 'Pixell Streaming API',
     version: '1.0.0',
