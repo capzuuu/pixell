@@ -1,70 +1,163 @@
-# Getting Started with Create React App
+# 🎬 Pixell — Modern Cinematic Streaming Platform MVP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Pixell** is a full-stack, scalable, modern commercial-grade streaming platform for movies, TV series, episodes, and original video content. Designed with a dark cinematic aesthetic, responsive design, full video playback infrastructure, continue watching progress tracking, user watchlists, watch history, and an administrative management dashboard.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌟 Key Features
 
-### `npm start`
+### 🍿 Viewer & Streaming Experience
+- **Cinematic Hero Carousel**: Dynamic featured hero banners with high-definition backdrops, title synopses, genre badges, age ratings, direct play buttons, trailer preview modals, and watchlist toggles.
+- **Dedicated Custom Video Player (`/watch/movie/:id` & `/watch/episode/:id`)**:
+  - Fullscreen custom video player overlay that auto-hides during playback.
+  - Play, Pause, 10s Rewind, 10s Fast-Forward, Interactive Seek Timeline with timestamp indicators.
+  - Smooth Volume Slider & Mute Toggle.
+  - Playback Speed Selector (`0.5x`, `0.75x`, `1x`, `1.25x`, `1.5x`, `2x`).
+  - Series Episodes Drawer for instant switching between episodes while watching.
+  - Next Episode auto-advance for TV series.
+  - Keyboard shortcuts (`Space`/`k`, `j`/`l` seek, `m` mute, `f` fullscreen, `Esc`).
+  - Automatic watch progress synchronization every 5 seconds.
+  - Auto-Resume playback from exact saved position when returning.
+- **Home Feed (`/`)**:
+  - **Continue Watching** row with live percentage progress bar.
+  - **Trending Now**, **Popular Movies**, **Popular TV Series**, **Recently Added Series**.
+  - **Browse by Genre** pills for quick navigation.
+- **Movies Catalog (`/movies`)**:
+  - Multi-faceted filter bar: Genre, Release Year, Age Rating, Sort (Popular, Newest, Oldest, Highest Rated, Title A-Z).
+  - Responsive cards with poster hover zoom, rating badge, and quick play/watchlist actions.
+- **TV Series Catalog (`/series`)**:
+  - Complete TV series explorer with season badges and genre filtering.
+- **Movie Details (`/movie/:slug`)**:
+  - Full-bleed backdrop, trailer preview modal, storyline synopsis, release specifications, and similar recommendations.
+- **TV Series Details (`/series/:slug`)**:
+  - Interactive Season selector dropdown (`Season 1`, `Season 2`...).
+  - Episode list with thumbnails, durations, air dates, plot synopses, and direct stream buttons.
+- **Live Search (`/search`)**:
+  - Real-time debounced global search across titles, genres, descriptions, and actors.
+  - Grouped into distinct Movies and TV Series result sections with result counts.
+- **My Saved List (`/my-list`)**:
+  - Personal watchlist with filters (`All`, `Movies`, `Series`) and empty states.
+- **Watch History (`/history`)**:
+  - Chronological timeline of streamed content with timestamps, progress bars, and single/bulk clear options.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🛡️ Administrator Management Dashboard (`/admin`)
+- **Overview Dashboard (`/admin`)**:
+  - Real-time platform metrics: Total Users, Total Movies, Total Series, Total Episodes, Total Watch Streams.
+  - Live viewer stream telemetry with completion percentages.
+- **Movie Management (`/admin/movies`)**:
+  - Create, Edit, Delete movies with full metadata, video stream URLs, poster/backdrop URLs, duration, and genres.
+  - 1-click Publish/Unpublish toggle and Hero Featured toggle.
+- **Series Management (`/admin/series`)**:
+  - Create, Edit, Delete TV series, toggle publication, and jump directly to episode managers.
+- **Season & Episode Management (`/admin/episodes`)**:
+  - Create Seasons, Add/Edit/Delete Episodes with video URLs, thumbnails, duration, and episode numbering.
+- **Genre Management (`/admin/genres`)**:
+  - Manage categories, taxonomy, and URL slugs.
+- **User Management (`/admin/users`)**:
+  - Search registered users, change roles (`USER` <-> `ADMIN`), delete accounts.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🏗️ Architecture & Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```text
+pixell/
+├── client/                      # React 18 + TypeScript + Vite + Tailwind CSS
+│   ├── src/
+│   │   ├── components/          # Reusable UI components (VideoPlayer, HeroBanner, Cards, Modals, etc.)
+│   │   ├── pages/               # Views (Home, Movies, Series, Detail, Player, Search, MyList, History, Admin)
+│   │   ├── layouts/             # MainLayout, AdminLayout
+│   │   ├── store/               # Context Providers (AuthContext, WatchlistContext, ToastContext)
+│   │   ├── services/            # Frontend API client services
+│   │   └── types/               # TypeScript interfaces
+├── server/                      # Node.js + Express + TypeScript API Server
+│   ├── src/
+│   │   ├── controllers/         # Request handling & HTTP response formatting
+│   │   ├── services/            # Core business logic layer
+│   │   ├── routes/              # Modular REST API endpoints
+│   │   ├── middleware/          # JWT Auth, Admin Authorization, Error Handlers
+│   │   ├── config/              # Database manager (PostgreSQL + Embedded Fallback Adapter)
+│   │   └── server.ts            # Application bootstrap
+├── database/                    # SQL Database Layer
+│   ├── migrations/              # 001_init_schema.sql (Complete PostgreSQL DDL)
+│   └── seed/                    # seed_data.sql & seed_data.json
+└── package.json                 # Root monorepo orchestration
+```
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ⚡ Quick Start & Running Locally
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Prerequisites
+- **Node.js**: v18+ (tested on Node v22)
+- **npm**: v9+
+- *(Optional)* **PostgreSQL** running locally on port 5432 (The application automatically connects to PostgreSQL when available, or seamlessly uses the high-speed local data adapter if Postgres is not started).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Start Application (Server + Client concurrently)
+From the root directory:
 
-### `npm run eject`
+```bash
+# Start both Backend (Port 5000) and Frontend (Port 5173)
+npm run dev
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Frontend Application**: `http://localhost:5173`
+- **Backend API**: `http://localhost:5000/api`
+- **Health Check**: `http://localhost:5000/api/health`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔑 Pre-seeded Demo Accounts
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Role | Email | Password | Features Accessible |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin@pixell.tv` | `Admin123!` | Full Admin Console, Content CRUD, Metrics, Users |
+| **Demo User** | `demo@pixell.tv` | `User123!` | Watchlist, Progress Tracking, History, Player |
+| **Viewer 2** | `sarah@pixell.tv` | `User123!` | Standard Streaming Access |
 
-## Learn More
+*(Note: The login page includes **Instant 1-Click Demo Buttons** to log in as either Demo User or Administrator immediately without typing).*
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🧪 Automated End-to-End Test Suite
 
-### Code Splitting
+Run the full automated E2E test suite covering 15 complete user and admin API scenarios:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+cd server
+npx tsx src/scripts/test_e2e.ts
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🔥 Firebase Backend & Real-time Live Stream Radar Setup
 
-### Making a Progressive Web App
+Pixell supports **Firebase Cloud Firestore** as the backend database and **real-time sub-second Live Stream Radar telemetry**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 1. Backend Setup (Firestore)
+1. In your Firebase Console, create a Firebase project and enable **Cloud Firestore**.
+2. Go to **Project Settings** > **Service accounts** > **Generate new private key**, and download your `serviceAccountKey.json`.
+3. Place `serviceAccountKey.json` in the `/server` folder (or root directory), OR add the credentials to `.env`:
+   ```env
+   USE_FIREBASE=true
+   FIREBASE_PROJECT_ID=your-project-id
+   FIREBASE_CLIENT_EMAIL=your-service-account-email
+   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
+   ```
+4. Seed your catalog to Firestore:
+   ```bash
+   npm run seed:firebase
+   ```
 
-### Advanced Configuration
+### 2. Client Setup (Admin Live Stream Radar)
+Add your Firebase Web App credentials to `.env` or `client/.env`:
+```env
+VITE_FIREBASE_API_KEY=AIzaSy...
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=1234567890
+VITE_FIREBASE_APP_ID=1:1234567890:web:...
+```
+When configured, `/admin/streams` automatically switches from 10-second polling to **0ms WebSocket push notifications** via `onSnapshot()`, displaying live viewer scrubbers and playback positions in real time!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
