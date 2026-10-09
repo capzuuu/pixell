@@ -7,8 +7,6 @@ import { TitleModalProvider } from './store/TitleModalContext';
 import { ProfileProvider } from './store/ProfileContext';
 import { TVRemoteProvider } from './store/TVRemoteContext';
 import { NetflixDetailModal } from './components/NetflixDetailModal';
-import { TVRemoteGuide } from './components/TVRemoteGuide';
-import { VirtualTVRemote } from './components/VirtualTVRemote';
 
 // Layouts
 import { MainLayout } from './layouts/MainLayout';
@@ -62,10 +60,6 @@ export function App() {
 
                   {/* Global Netflix Details Modal */}
                   <NetflixDetailModal />
-
-                  {/* Smart TV Remote Overlay & Guide */}
-                  <TVRemoteGuide />
-                  <VirtualTVRemote />
                 </TVRemoteProvider>
               </TitleModalProvider>
             </WatchlistProvider>
