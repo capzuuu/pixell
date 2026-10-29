@@ -25,6 +25,9 @@ export const Player: React.FC = () => {
   const [title, setTitle] = useState<string>('Streaming Title');
   const [subtitle, setSubtitle] = useState<string>('');
   const [videoUrl, setVideoUrl] = useState<string>('');
+  const [effectiveTmdbId, setEffectiveTmdbId] = useState<string | undefined>(
+    resolvedTmdbId && /^\d+$/.test(resolvedTmdbId) ? resolvedTmdbId : undefined
+  );
   const [posterUrl, setPosterUrl] = useState<string>('');
   const [backdropUrl, setBackdropUrl] = useState<string>('');
   const [seasonEpisodes, setSeasonEpisodes] = useState<Episode[]>([]);
@@ -40,8 +43,11 @@ export const Player: React.FC = () => {
 
         if (isTvRoute && resolvedTmdbId) {
           // TV Series stream directly from TMDB
-          const streamUrl = `https://player.videasy.ws/embed/tv/${resolvedTmdbId}/${seasonNumber}/${episodeNumber}`;
+          const streamUrl = `https://vidlink.pro/tv/${resolvedTmdbId}/${seasonNumber}/${episodeNumber}?autoplay=true&primaryColor=E50914`;
           setVideoUrl(streamUrl);
+          if (/^\d+$/.test(resolvedTmdbId)) {
+            setEffectiveTmdbId(resolvedTmdbId);
+          }
 
           const [seriesRes, epsRes, progRes] = await Promise.all([
             tmdbService.getSeriesDetails(resolvedTmdbId).catch(() => ({ success: false, data: null })),
@@ -53,6 +59,9 @@ export const Player: React.FC = () => {
             setTitle(seriesRes.data.title);
             setPosterUrl(seriesRes.data.posterUrl);
             setBackdropUrl(seriesRes.data.backdropUrl);
+            if (seriesRes.data.tmdbId) {
+              setEffectiveTmdbId(String(seriesRes.data.tmdbId));
+            }
 
             const rawSeasons = (seriesRes.data.seasons || [])
               .filter((s: Season) => s.seasonNumber > 0)
@@ -91,12 +100,15 @@ export const Player: React.FC = () => {
             setInitialProgress(progRes.data.progressSeconds);
           }
         } else if (type === 'movie' && resolvedTmdbId) {
-          // Movie stream directly from TMDB
-          const streamUrl = `https://player.videasy.ws/embed/movie/${resolvedTmdbId}`;
-          setVideoUrl(streamUrl);
+          // Movie stream directly from TMDB or local catalog
+          const isNumericId = /^\d+$/.test(resolvedTmdbId);
+          if (isNumericId) {
+            setEffectiveTmdbId(resolvedTmdbId);
+            setVideoUrl(`https://vidlink.pro/movie/${resolvedTmdbId}?autoplay=true&primaryColor=E50914`);
+          }
 
           const [movieRes, progRes] = await Promise.all([
-            /^\d+$/.test(resolvedTmdbId)
+            isNumericId
               ? tmdbService.getMovieDetails(resolvedTmdbId).catch(() => ({ success: false, data: null }))
               : movieService.getMovieBySlugOrId(resolvedTmdbId).catch(() => ({ success: false, data: null })),
             progressService.getItemProgress({ tmdbId: resolvedTmdbId, movieId: resolvedTmdbId }).catch(() => ({ success: false, data: null })),
@@ -107,6 +119,14 @@ export const Player: React.FC = () => {
             setSubtitle(`${movieRes.data.releaseYear} • ${movieRes.data.rating || 'PG-13'}`);
             setPosterUrl(movieRes.data.posterUrl);
             setBackdropUrl(movieRes.data.backdropUrl);
+
+            if (movieRes.data.tmdbId) {
+              setEffectiveTmdbId(String(movieRes.data.tmdbId));
+              setVideoUrl(`https://vidlink.pro/movie/${movieRes.data.tmdbId}?autoplay=true&primaryColor=E50914`);
+            } else if (!isNumericId && movieRes.data.videoUrl && !movieRes.data.videoUrl.includes('videasy.ws')) {
+              setEffectiveTmdbId(undefined);
+              setVideoUrl(movieRes.data.videoUrl);
+            }
           }
 
           if (progRes.data && progRes.data.progressSeconds > 0) {
@@ -123,7 +143,15 @@ export const Player: React.FC = () => {
             const ep = epRes.data;
             setTitle(ep.seriesTitle || 'TV Series');
             setSubtitle(`S${ep.seasonNumber || 1}:E${ep.episodeNumber} • ${ep.title}`);
-            setVideoUrl(ep.videoUrl || `https://player.videasy.ws/embed/tv/${ep.seriesTmdbId || ep.seriesId || '1399'}/${ep.seasonNumber || 1}/${ep.episodeNumber}`);
+            if (ep.seriesTmdbId && /^\d+$/.test(String(ep.seriesTmdbId))) {
+              setEffectiveTmdbId(String(ep.seriesTmdbId));
+            } else {
+              setEffectiveTmdbId(undefined);
+            }
+            const cleanEpVideoUrl = ep.videoUrl && !ep.videoUrl.includes('videasy.ws')
+              ? ep.videoUrl
+              : `https://vidlink.pro/tv/${ep.seriesTmdbId || ep.seriesId || '1399'}/${ep.seasonNumber || 1}/${ep.episodeNumber}?autoplay=true&primaryColor=E50914`;
+            setVideoUrl(cleanEpVideoUrl);
             setPosterUrl(ep.thumbnailUrl);
 
             if (ep.seasonId) {
@@ -195,7 +223,8 @@ export const Player: React.FC = () => {
       subtitle={subtitle}
       posterUrl={posterUrl}
       backdropUrl={backdropUrl}
-      tmdbId={resolvedTmdbId}
+      tmdbId={effectiveTmdbId}
+      mediaType={isTvRoute || type === 'episode' ? 'tv' : 'movie'}
       movieId={type === 'movie' ? resolvedTmdbId : undefined}
       episodeId={type === 'episode' ? id : undefined}
       seasonNumber={seasonNumber}

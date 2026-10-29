@@ -203,7 +203,7 @@ export class TmdbService {
       posterUrl: details.poster_path ? `${IMAGE_BASE_W500}${details.poster_path}` : '',
       backdropUrl: details.backdrop_path ? `${IMAGE_BASE_ORIGINAL}${details.backdrop_path}` : '',
       trailerUrl,
-      videoUrl: `https://player.videasy.ws/embed/movie/${details.id}`,
+      videoUrl: `https://vidlink.pro/movie/${details.id}?autoplay=true&primaryColor=E50914`,
       releaseYear,
       duration: details.runtime || 110,
       rating,
@@ -291,7 +291,7 @@ export class TmdbService {
       thumbnailUrl: ep.still_path
         ? `${IMAGE_BASE_W500}${ep.still_path}`
         : (showDetails.backdrop_path ? `${IMAGE_BASE_W500}${showDetails.backdrop_path}` : ''),
-      videoUrl: `https://player.videasy.ws/embed/tv/${tmdbId}/${seasonNumber}/${ep.episode_number}`,
+      videoUrl: `https://vidlink.pro/tv/${tmdbId}/${seasonNumber}/${ep.episode_number}?autoplay=true&primaryColor=E50914`,
       releaseDate: ep.air_date,
       voteAverage: ep.vote_average ? Number(ep.vote_average.toFixed(1)) : 8.0,
     }));
@@ -413,7 +413,7 @@ export class TmdbService {
       rating: m.vote_average ? `${m.vote_average.toFixed(1)}/10` : 'PG-13',
       voteAverage: m.vote_average ? Number(m.vote_average.toFixed(1)) : 8.0,
       voteCount: m.vote_count || 0,
-      videoUrl: `https://player.videasy.ws/embed/movie/${m.id}`,
+      videoUrl: `https://vidlink.pro/movie/${m.id}?autoplay=true&primaryColor=E50914`,
     };
   }
 
@@ -431,7 +431,7 @@ export class TmdbService {
       rating: s.vote_average ? `${s.vote_average.toFixed(1)}/10` : 'TV-MA',
       voteAverage: s.vote_average ? Number(s.vote_average.toFixed(1)) : 8.0,
       voteCount: s.vote_count || 0,
-      videoUrl: `https://player.videasy.ws/embed/tv/${s.id}/1/1`,
+      videoUrl: `https://vidlink.pro/tv/${s.id}/1/1?autoplay=true&primaryColor=E50914`,
     };
   }
 }

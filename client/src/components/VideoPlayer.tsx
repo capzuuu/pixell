@@ -20,7 +20,9 @@ import {
   Sparkles,
   Smartphone,
   ChevronDown,
-  Check
+  Check,
+  Server,
+  Wifi
 } from 'lucide-react';
 import { progressService } from '../services/progressService';
 import { tmdbService } from '../services/tmdbService';
@@ -33,12 +35,84 @@ import { useAuth } from '../store/AuthContext';
 
 import rotateIcon from '../assets/rotate.png';
 
+export type StreamServerId =
+  | 'vidlink'
+  | 'vidsrc_cc'
+  | 'multiembed'
+  | 'autoembed'
+  | 'vidsrc_icu'
+  | 'embedsu'
+  | 'videasy'
+  | '2embed'
+  | 'direct';
+
+interface StreamServerOption {
+  id: StreamServerId;
+  name: string;
+  badge: string;
+  description: string;
+}
+
+const STREAM_SERVERS: StreamServerOption[] = [
+  {
+    id: 'vidlink',
+    name: 'VidLink Pro',
+    badge: 'Ultra HD • Primary',
+    description: 'Fast 1080p/4K streaming with Netflix theme & auto-play',
+  },
+  {
+    id: 'vidsrc_cc',
+    name: 'VidSrc CC',
+    badge: 'WiFi Bypass • v2',
+    description: 'Cloudflare-routed stream — works on restricted WiFi & ISPs',
+  },
+  {
+    id: 'multiembed',
+    name: 'MultiEmbed VIP',
+    badge: 'Multi-Mirror',
+    description: 'Aggregates multiple backup hosts if primary CDN is blocked',
+  },
+  {
+    id: 'autoembed',
+    name: 'AutoEmbed',
+    badge: 'Fast CDN',
+    description: 'High-availability global server for movies & TV series',
+  },
+  {
+    id: 'vidsrc_icu',
+    name: 'VidSrc ICU',
+    badge: 'Unblocked Mirror',
+    description: 'Alternative DNS mirror for ISP-blocked regions',
+  },
+  {
+    id: 'embedsu',
+    name: 'Embed.su',
+    badge: 'HD Backup',
+    description: 'Clean HD player with multi-audio & subtitle tracks',
+  },
+  {
+    id: 'videasy',
+    name: 'Videasy Net',
+    badge: 'Mirror .net',
+    description: 'Updated Videasy .net endpoint',
+  },
+  {
+    id: '2embed',
+    name: '2Embed CC',
+    badge: 'Backup',
+    description: 'Classic fallback server for older & international titles',
+  },
+];
+
+const SERVER_STORAGE_KEY = 'pixell_preferred_server';
+
 interface VideoPlayerProps {
   videoUrl: string;
   title: string;
   subtitle?: string;
   posterUrl?: string;
   backdropUrl?: string;
+  mediaType?: 'movie' | 'tv';
   movieId?: string;
   episodeId?: string;
   tmdbId?: number | string;
@@ -60,6 +134,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   subtitle,
   posterUrl,
   backdropUrl,
+  mediaType: propMediaType,
   movieId,
   episodeId,
   tmdbId,
@@ -86,13 +161,39 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     blockedCount,
   } = useAdShield(true);
 
-  // Determine initial server mode: if videoUrl is already a videasy or embed URL, or if we have tmdbId
-  const isEmbedInitial = videoUrl.includes('videasy') || videoUrl.includes('vidsrc') || videoUrl.includes('embed');
-  const [selectedServer, setSelectedServer] = useState<'videasy' | 'vidsrc' | 'direct'>(() => {
-    if (videoUrl.includes('vidsrc')) return 'vidsrc';
-    if (isEmbedInitial || tmdbId) return 'videasy';
-    return 'direct';
+  const isEmbedInitial =
+    Boolean(tmdbId) ||
+    videoUrl.includes('vidlink') ||
+    videoUrl.includes('vidsrc') ||
+    videoUrl.includes('videasy') ||
+    videoUrl.includes('multiembed') ||
+    videoUrl.includes('autoembed') ||
+    videoUrl.includes('embed.su') ||
+    videoUrl.includes('2embed') ||
+    videoUrl.includes('embed');
+
+  const [selectedServer, setSelectedServer] = useState<StreamServerId>(() => {
+    if (!isEmbedInitial && videoUrl && (videoUrl.endsWith('.mp4') || videoUrl.endsWith('.m3u8'))) {
+      return 'direct';
+    }
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(SERVER_STORAGE_KEY) as StreamServerId | null;
+      if (saved && STREAM_SERVERS.some((s) => s.id === saved)) {
+        return saved;
+      }
+    }
+    return 'vidlink';
   });
+
+  const handleSelectServer = (serverId: StreamServerId) => {
+    setSelectedServer(serverId);
+    setErrorState(null);
+    if (serverId !== 'direct' && typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(SERVER_STORAGE_KEY, serverId);
+      } catch { }
+    }
+  };
 
   // States
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -124,18 +225,28 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
   const [speedMenuOpen, setSpeedMenuOpen] = useState<boolean>(false);
   const [adShieldMenuOpen, setAdShieldMenuOpen] = useState<boolean>(false);
+  const [serverMenuOpen, setServerMenuOpen] = useState<boolean>(false);
   const [episodesDrawerOpen, setEpisodesDrawerOpen] = useState<boolean>(false);
   const [drawerSeasonNumber, setDrawerSeasonNumber] = useState<number>(seasonNumber);
   const [drawerEpisodes, setDrawerEpisodes] = useState<Episode[]>(episodesList);
   const [drawerLoading, setDrawerLoading] = useState<boolean>(false);
   const [seasonDropdownOpen, setSeasonDropdownOpen] = useState<boolean>(false);
   const seasonDropdownRef = useRef<HTMLDivElement>(null);
+  const serverMenuRef = useRef<HTMLDivElement>(null);
 
-  // Close custom season dropdown on outside click
+  const isTvContent =
+    propMediaType === 'tv' ||
+    Boolean(episodeId) ||
+    (!movieId && (episodesList.length > 0 || seasonsList.length > 0 || videoUrl.includes('/tv/')));
+
+  // Close custom season dropdown and server dropdown on outside click
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (seasonDropdownRef.current && !seasonDropdownRef.current.contains(e.target as Node)) {
         setSeasonDropdownOpen(false);
+      }
+      if (serverMenuRef.current && !serverMenuRef.current.contains(e.target as Node)) {
+        setServerMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleOutsideClick);
@@ -211,43 +322,69 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     };
   }, []);
 
-  // Compute embed URLs
+  // Compute embed URLs across multi-CDN & WiFi-unblocked providers
   const getEmbedUrl = () => {
-    if (selectedServer === 'videasy') {
-      if (videoUrl.includes('player.videasy.ws') || videoUrl.includes('player.videasy.net')) {
-        return videoUrl;
-      }
-      if (episodeId && tmdbId) {
-        return `https://player.videasy.ws/embed/tv/${tmdbId}/${seasonNumber}/${episodeNumber}`;
-      }
-      if (tmdbId) {
-        return `https://player.videasy.ws/embed/movie/${tmdbId}`;
-      }
+    if (selectedServer === 'direct' || (!tmdbId && videoUrl.endsWith('.mp4'))) {
       return videoUrl;
     }
 
-    if (selectedServer === 'vidsrc') {
-      if (episodeId && tmdbId) {
-        return `https://vidsrc.to/embed/tv/${tmdbId}/${seasonNumber}/${episodeNumber}`;
-      }
-      if (tmdbId) {
-        return `https://vidsrc.to/embed/movie/${tmdbId}`;
-      }
-      return `https://vidsrc.to/embed/movie/${tmdbId || '299534'}`;
-    }
+    const id = tmdbId || '299534';
 
-    return videoUrl;
+    switch (selectedServer) {
+      case 'vidlink':
+        return isTvContent
+          ? `https://vidlink.pro/tv/${id}/${seasonNumber}/${episodeNumber}?autoplay=true&primaryColor=E50914`
+          : `https://vidlink.pro/movie/${id}?autoplay=true&primaryColor=E50914`;
+
+      case 'vidsrc_cc':
+        return isTvContent
+          ? `https://vidsrc.cc/v2/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+          : `https://vidsrc.cc/v2/embed/movie/${id}`;
+
+      case 'multiembed':
+        return isTvContent
+          ? `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`
+          : `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+
+      case 'autoembed':
+        return isTvContent
+          ? `https://player.autoembed.cc/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+          : `https://player.autoembed.cc/embed/movie/${id}`;
+
+      case 'vidsrc_icu':
+        return isTvContent
+          ? `https://vidsrc.icu/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+          : `https://vidsrc.icu/embed/movie/${id}`;
+
+      case 'embedsu':
+        return isTvContent
+          ? `https://embed.su/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+          : `https://embed.su/embed/movie/${id}`;
+
+      case 'videasy':
+        return isTvContent
+          ? `https://player.videasy.net/tv/${id}/${seasonNumber}/${episodeNumber}?color=E50914`
+          : `https://player.videasy.net/movie/${id}?color=E50914`;
+
+      case '2embed':
+        return isTvContent
+          ? `https://www.2embed.cc/embedtv/${id}&s=${seasonNumber}&e=${episodeNumber}`
+          : `https://www.2embed.cc/embed/${id}`;
+
+      default:
+        return videoUrl;
+    }
   };
 
   // Auto-hide controls after 2 seconds of inactivity
   const triggerControlsAutoHide = useCallback(() => {
     if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
     controlsTimeoutRef.current = setTimeout(() => {
-      if (!speedMenuOpen && !episodesDrawerOpen && !adShieldMenuOpen) {
+      if (!speedMenuOpen && !episodesDrawerOpen && !adShieldMenuOpen && !serverMenuOpen) {
         setControlsVisible(false);
       }
     }, 2000);
-  }, [speedMenuOpen, episodesDrawerOpen, adShieldMenuOpen]);
+  }, [speedMenuOpen, episodesDrawerOpen, adShieldMenuOpen, serverMenuOpen]);
 
   const showControls = useCallback(() => {
     setControlsVisible(true);
@@ -331,7 +468,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   // Periodic watch progress & active live telemetry sync
   useEffect(() => {
-    const isTv = Boolean(episodeId || (tmdbId && seasonNumber && episodeNumber));
+    const isTv = isTvContent;
     const mediaType: 'movie' | 'tv' = isTv ? 'tv' : 'movie';
 
     const saveCurrentProgress = (progressSec: number, durationSec: number, isLiveStatus: boolean) => {
@@ -573,7 +710,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   const embedUrl = getEmbedUrl();
-  const isIframeMode = (selectedServer === 'videasy' || selectedServer === 'vidsrc') && embedUrl.startsWith('http');
+  const isIframeMode =
+    selectedServer !== 'direct' &&
+    !(videoUrl.endsWith('.mp4') && !tmdbId) &&
+    embedUrl.startsWith('http');
+  const currentServerObj = STREAM_SERVERS.find((s) => s.id === selectedServer) || STREAM_SERVERS[0];
 
   const currentSeasonObj = seasonsList?.find(s => s.seasonNumber === drawerSeasonNumber) || {
     id: String(drawerSeasonNumber),
@@ -589,16 +730,18 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       onClick={showControls}
       className="fixed inset-0 w-full h-full h-[100dvh] bg-black overflow-hidden flex items-center justify-center select-none touch-manipulation z-50"
     >
-      {/* Video Content: Responsive Iframe (Videasy.ws / Vidsrc) or HTML5 Video */}
+      {/* Video Content: Responsive Iframe (Multi-Server Embed) or HTML5 Video */}
       {isIframeMode ? (
         <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-black">
           <iframe
+            key={embedUrl}
             src={embedUrl}
             title={title}
             width="100%"
             height="100%"
             frameBorder="0"
             allowFullScreen
+            referrerPolicy="origin"
             allow="autoplay; fullscreen; picture-in-picture; encrypted-media; accelerometer; gyroscope; web-share"
             className="w-full h-full border-0 absolute inset-0"
           />
@@ -614,7 +757,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             stopLiveStreamRadar();
             if (hasNextEpisode && onNextEpisode) onNextEpisode();
           }}
-          onError={() => setErrorState('Unable to play direct video stream. Retrying playback...')}
+          onError={() => setErrorState('Unable to play direct video stream. Switch server or retry playback.')}
           className="w-full h-full object-contain cursor-pointer"
           playsInline
         />
@@ -628,15 +771,15 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           </div>
           <h3 className="text-xl font-bold text-white mb-2">Streaming Playback Notice</h3>
           <p className="text-sm text-slate-300 max-w-md mb-6">{errorState}</p>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={() => {
                 setErrorState(null);
-                setSelectedServer('videasy');
+                handleSelectServer('vidsrc_cc');
               }}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-accent-pink hover:from-brand-500 hover:to-accent-pink text-white font-semibold text-sm shadow-glow-brand"
+              className="px-6 py-2.5 rounded-xl bg-[#E50914] hover:bg-[#b80710] text-white font-semibold text-sm shadow-lg"
             >
-              Retry Playback
+              Switch to WiFi Bypass Server
             </button>
           </div>
         </div>
@@ -798,7 +941,90 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             )}
           </div>
 
+          {/* Multi-Server & WiFi Bypass Switcher */}
+          {(tmdbId || isEmbedInitial) && (
+            <div ref={serverMenuRef} className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setServerMenuOpen(!serverMenuOpen);
+                  setAdShieldMenuOpen(false);
+                  triggerControlsAutoHide();
+                }}
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg sm:rounded-xl text-xs font-bold backdrop-blur-md border transition-all hover:scale-105 active:scale-95 ${
+                  serverMenuOpen
+                    ? 'bg-[#E50914] text-white border-[#E50914] shadow-lg'
+                    : 'bg-black/75 hover:bg-[#242424] text-white border-white/25'
+                }`}
+                title="Switch Streaming Server (Use if unavailable or blocked on WiFi)"
+              >
+                <Server className="w-3.5 h-3.5 text-[#E50914] shrink-0" style={serverMenuOpen ? { color: '#fff' } : undefined} />
+                <span className="truncate max-w-[90px] sm:max-w-none">
+                  {currentServerObj.name}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${serverMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
 
+              {serverMenuOpen && (
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl bg-[#181818] border border-white/15 shadow-2xl p-3.5 z-40 animate-scale-in max-h-[80vh] overflow-y-auto custom-scrollbar"
+                >
+                  <div className="flex items-center justify-between pb-2.5 border-b border-white/10 mb-2.5">
+                    <div className="flex items-center gap-2">
+                      <Wifi className="w-4 h-4 text-[#E50914]" />
+                      <span className="font-bold text-sm text-white">Streaming Servers</span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-[#E50914]/20 text-[#E50914] text-[10px] font-extrabold uppercase">
+                      WiFi Unblocker
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] text-[#a3a3a3] mb-3 leading-relaxed">
+                    If a movie or series says <strong className="text-white">unavailable</strong> or is blocked on your WiFi/ISP, switch to another server below:
+                  </p>
+
+                  <div className="space-y-1.5">
+                    {STREAM_SERVERS.map((srv) => {
+                      const isActive = selectedServer === srv.id;
+                      return (
+                        <button
+                          key={srv.id}
+                          type="button"
+                          onClick={() => {
+                            handleSelectServer(srv.id);
+                            setServerMenuOpen(false);
+                          }}
+                          className={`w-full text-left p-2.5 rounded-xl text-xs transition-all flex items-center justify-between gap-2 border ${
+                            isActive
+                              ? 'bg-[#E50914]/20 border-[#E50914] text-white'
+                              : 'bg-[#222222]/80 hover:bg-[#2a2a2a] border-white/5 text-[#d1d5db]'
+                          }`}
+                        >
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-white truncate">{srv.name}</span>
+                              <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase shrink-0 ${
+                                isActive
+                                  ? 'bg-[#E50914] text-white'
+                                  : 'bg-white/10 text-[#a3a3a3]'
+                              }`}>
+                                {srv.badge}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-[#a3a3a3] mt-0.5 truncate">
+                              {srv.description}
+                            </p>
+                          </div>
+                          {isActive && <Check className="w-4 h-4 text-[#E50914] shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Drawer button for Episodes & Seasons list */}
           {(episodesList.length > 0 || seasonsList.length > 0) && (
