@@ -111,7 +111,9 @@ export const Player: React.FC = () => {
             isNumericId
               ? tmdbService.getMovieDetails(resolvedTmdbId).catch(() => ({ success: false, data: null }))
               : movieService.getMovieBySlugOrId(resolvedTmdbId).catch(() => ({ success: false, data: null })),
-            progressService.getItemProgress({ tmdbId: resolvedTmdbId, movieId: resolvedTmdbId }).catch(() => ({ success: false, data: null })),
+            progressService.getItemProgress(
+              isNumericId ? { tmdbId: resolvedTmdbId } : { movieId: resolvedTmdbId }
+            ).catch(() => ({ success: false, data: null })),
           ]);
 
           if (movieRes.success && movieRes.data) {
@@ -225,7 +227,7 @@ export const Player: React.FC = () => {
       backdropUrl={backdropUrl}
       tmdbId={effectiveTmdbId}
       mediaType={isTvRoute || type === 'episode' ? 'tv' : 'movie'}
-      movieId={type === 'movie' ? resolvedTmdbId : undefined}
+      movieId={type === 'movie' && resolvedTmdbId && !/^\d+$/.test(resolvedTmdbId) ? resolvedTmdbId : undefined}
       episodeId={type === 'episode' ? id : undefined}
       seasonNumber={seasonNumber}
       episodeNumber={episodeNumber}

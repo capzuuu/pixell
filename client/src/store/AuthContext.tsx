@@ -3,7 +3,7 @@ import { User } from '../types';
 import { authService } from '../services/authService';
 import { useToast } from './ToastContext';
 import { ref, set, remove, onDisconnect, onValue } from 'firebase/database';
-import { rtdb } from '../config/firebase';
+import { rtdb, auth } from '../config/firebase';
 
 const DEFAULT_USER: User = {
   id: 'guest_streamer',
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Real-time presence synchronization with Firebase RTDB
   useEffect(() => {
-    if (!user || !rtdb) return;
+    if (!user || !rtdb || !auth?.currentUser) return;
 
     const presenceRef = ref(rtdb, `presence/${user.id}`);
     const connectedRef = ref(rtdb, '.info/connected');

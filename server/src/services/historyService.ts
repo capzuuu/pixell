@@ -22,9 +22,10 @@ export interface RecordHistoryPayload {
 
 export class HistoryService {
   async getHistory(userId: string): Promise<WatchHistory[]> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
+      if (adapter.isPostgres) {
       const res = await adapter.query(
         'SELECT * FROM watch_history WHERE user_id = $1 ORDER BY watched_at DESC LIMIT 50',
         [userId]
@@ -146,14 +147,19 @@ export class HistoryService {
 
       return items.sort((a, b) => new Date(b.watchedAt).getTime() - new Date(a.watchedAt).getTime());
     }
+    } catch (err) {
+      console.warn('⚠️ [HistoryService] getHistory fallback:', err);
+      return [];
+    }
   }
 
   async recordHistory(payload: RecordHistoryPayload): Promise<void> {
-    const adapter = await dbManager.getAdapter();
-    const id = uuidv4();
-    const now = new Date().toISOString();
+    try {
+      const adapter = await dbManager.getAdapter();
+      const id = uuidv4();
+      const now = new Date().toISOString();
 
-    if (adapter.isPostgres) {
+      if (adapter.isPostgres) {
       if (payload.tmdbId) {
         if (payload.seasonNumber && payload.episodeNumber) {
           await adapter.query(
@@ -225,12 +231,16 @@ export class HistoryService {
 
       (adapter as any).saveStore();
     }
+    } catch (err) {
+      console.warn('⚠️ [HistoryService] recordHistory fallback:', err);
+    }
   }
 
   async clearHistory(userId: string, historyId?: string): Promise<boolean> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
+      if (adapter.isPostgres) {
       if (historyId) {
         const res = await adapter.query('DELETE FROM watch_history WHERE user_id = $1 AND id = $2', [userId, historyId]);
         return res.rowCount > 0;
@@ -248,6 +258,10 @@ export class HistoryService {
       }
       (adapter as any).saveStore();
       return store.watch_history.length < initial;
+    }
+    } catch (err) {
+      console.warn('⚠️ [HistoryService] clearHistory fallback:', err);
+      return false;
     }
   }
 }

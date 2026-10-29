@@ -105,44 +105,94 @@ CREATE TABLE IF NOT EXISTS episodes (
 -- 9. Watch Progress Table (Resume playback / Continue watching)
 CREATE TABLE IF NOT EXISTS watch_progress (
     id VARCHAR(36) PRIMARY KEY,
-    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
-    movie_id VARCHAR(36) REFERENCES movies(id) ON DELETE CASCADE,
-    episode_id VARCHAR(36) REFERENCES episodes(id) ON DELETE CASCADE,
+    user_id VARCHAR(100) NOT NULL,
+    movie_id VARCHAR(100),
+    episode_id VARCHAR(100),
+    tmdb_id VARCHAR(100),
+    media_type VARCHAR(20),
+    title TEXT,
+    poster_url TEXT,
+    backdrop_url TEXT,
+    season_number INT,
+    episode_number INT,
+    episode_title TEXT,
     progress_seconds INT NOT NULL DEFAULT 0,
     duration_seconds INT NOT NULL DEFAULT 0,
     completed BOOLEAN DEFAULT FALSE,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT check_target CHECK (
-        (movie_id IS NOT NULL AND episode_id IS NULL) OR
-        (movie_id IS NULL AND episode_id IS NOT NULL)
-    )
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 10. Watchlist Table
 CREATE TABLE IF NOT EXISTS watchlist (
     id VARCHAR(36) PRIMARY KEY,
-    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
-    movie_id VARCHAR(36) REFERENCES movies(id) ON DELETE CASCADE,
-    series_id VARCHAR(36) REFERENCES series(id) ON DELETE CASCADE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT check_watchlist_target CHECK (
-        (movie_id IS NOT NULL AND series_id IS NULL) OR
-        (movie_id IS NULL AND series_id IS NOT NULL)
-    )
+    user_id VARCHAR(100) NOT NULL,
+    movie_id VARCHAR(100),
+    series_id VARCHAR(100),
+    tmdb_id VARCHAR(100),
+    media_type VARCHAR(20),
+    title TEXT,
+    poster_url TEXT,
+    backdrop_url TEXT,
+    rating VARCHAR(30),
+    release_year INT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 11. Watch History Table
 CREATE TABLE IF NOT EXISTS watch_history (
     id VARCHAR(36) PRIMARY KEY,
-    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
-    movie_id VARCHAR(36) REFERENCES movies(id) ON DELETE CASCADE,
-    episode_id VARCHAR(36) REFERENCES episodes(id) ON DELETE CASCADE,
-    watched_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT check_history_target CHECK (
-        (movie_id IS NOT NULL AND episode_id IS NULL) OR
-        (movie_id IS NULL AND episode_id IS NOT NULL)
-    )
+    user_id VARCHAR(100) NOT NULL,
+    movie_id VARCHAR(100),
+    episode_id VARCHAR(100),
+    tmdb_id VARCHAR(100),
+    media_type VARCHAR(20),
+    title TEXT,
+    poster_url TEXT,
+    backdrop_url TEXT,
+    season_number INT,
+    episode_number INT,
+    episode_title TEXT,
+    watched_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Upgrade existing tables if created by an older schema version
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS tmdb_id VARCHAR(100);
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS media_type VARCHAR(20);
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS title TEXT;
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS poster_url TEXT;
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS backdrop_url TEXT;
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS season_number INT;
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS episode_number INT;
+ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS episode_title TEXT;
+ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS check_target;
+ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS watch_progress_user_id_fkey;
+ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS watch_progress_movie_id_fkey;
+ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS watch_progress_episode_id_fkey;
+
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS tmdb_id VARCHAR(100);
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS media_type VARCHAR(20);
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS title TEXT;
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS poster_url TEXT;
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS backdrop_url TEXT;
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS rating VARCHAR(30);
+ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS release_year INT;
+ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS check_watchlist_target;
+ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS watchlist_user_id_fkey;
+ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS watchlist_movie_id_fkey;
+ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS watchlist_series_id_fkey;
+
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS tmdb_id VARCHAR(100);
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS media_type VARCHAR(20);
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS title TEXT;
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS poster_url TEXT;
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS backdrop_url TEXT;
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS season_number INT;
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS episode_number INT;
+ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS episode_title TEXT;
+ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS check_history_target;
+ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS watch_history_user_id_fkey;
+ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS watch_history_movie_id_fkey;
+ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS watch_history_episode_id_fkey;
 
 -- Indices for rapid query performance
 CREATE INDEX IF NOT EXISTS idx_movies_slug ON movies(slug);

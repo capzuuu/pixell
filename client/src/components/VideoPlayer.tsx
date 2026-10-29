@@ -30,7 +30,7 @@ import { formatSeconds } from '../utils/formatTime';
 import { useAdShield } from '../hooks/useAdShield';
 import { Episode, Season } from '../types';
 import { ref, set, remove, onDisconnect } from 'firebase/database';
-import { rtdb } from '../config/firebase';
+import { rtdb, auth } from '../config/firebase';
 import { useAuth } from '../store/AuthContext';
 
 import rotateIcon from '../assets/rotate.png';
@@ -439,7 +439,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   // Dedicated helper to immediately remove live stream radar entry
   const stopLiveStreamRadar = useCallback(() => {
-    if (rtdb && user) {
+    if (rtdb && auth?.currentUser && user) {
       remove(ref(rtdb, `live_streams/${user.id}`)).catch(() => {});
     }
     progressService.stopLiveStream().catch(() => {});
@@ -447,7 +447,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   // Tab close & unmount radar presence cleanup
   useEffect(() => {
-    if (rtdb && user) {
+    if (rtdb && auth?.currentUser && user) {
       const streamRef = ref(rtdb, `live_streams/${user.id}`);
       onDisconnect(streamRef).remove().catch(() => {});
     }
@@ -487,7 +487,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         isLive: isLiveStatus,
       }).catch(() => {});
 
-      if (rtdb && user) {
+      if (rtdb && auth?.currentUser && user) {
         const streamRef = ref(rtdb, `live_streams/${user.id}`);
         if (isLiveStatus) {
           const percentage = durationSec > 0 ? Math.min(100, Math.round((progressSec / durationSec) * 100)) : 0;

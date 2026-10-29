@@ -18,12 +18,22 @@ export class TmdbService {
       }
     });
 
-    const res = await fetch(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${ENV.TMDB_READ_ACCESS_TOKEN}`,
-        Accept: 'application/json',
-      },
-    });
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+    };
+    if (ENV.TMDB_READ_ACCESS_TOKEN) {
+      headers.Authorization = `Bearer ${ENV.TMDB_READ_ACCESS_TOKEN}`;
+    } else if (ENV.TMDB_API_KEY) {
+      url.searchParams.set('api_key', ENV.TMDB_API_KEY);
+    }
+
+    let res = await fetch(url.toString(), { headers });
+
+    // Fallback to v3 api_key if Bearer token fails with 401
+    if (res.status === 401 && ENV.TMDB_API_KEY && !url.searchParams.has('api_key')) {
+      url.searchParams.set('api_key', ENV.TMDB_API_KEY);
+      res = await fetch(url.toString(), { headers: { Accept: 'application/json' } });
+    }
 
     if (!res.ok) {
       const errText = await res.text();

@@ -26,9 +26,10 @@ export interface SaveProgressPayload {
 
 export class ProgressService {
   async getContinueWatching(userId: string): Promise<WatchProgress[]> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
+      if (adapter.isPostgres) {
       const res = await adapter.query(`
         SELECT * FROM watch_progress
         WHERE user_id = $1 AND progress_seconds > 0 AND completed = FALSE
@@ -160,15 +161,20 @@ export class ProgressService {
 
       return items.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     }
+    } catch (err) {
+      console.warn('⚠️ [ProgressService] getContinueWatching fallback:', err);
+      return [];
+    }
   }
 
   async getProgressForItem(
     userId: string,
     target: { movieId?: string; episodeId?: string; tmdbId?: number | string; seasonNumber?: number; episodeNumber?: number }
   ): Promise<WatchProgress | null> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
+      if (adapter.isPostgres) {
       let query = 'SELECT * FROM watch_progress WHERE user_id = $1';
       const params: any[] = [userId];
 
@@ -247,15 +253,18 @@ export class ProgressService {
         updatedAt: row.updated_at,
       };
     }
+    } catch (err) {
+      console.warn('⚠️ [ProgressService] getProgressForItem fallback:', err);
+      return null;
+    }
   }
 
   async saveProgress(userId: string, payload: SaveProgressPayload): Promise<WatchProgress> {
-    const adapter = await dbManager.getAdapter();
     const id = uuidv4();
     const now = new Date().toISOString();
     const completed = payload.durationSeconds > 0 && (payload.progressSeconds / payload.durationSeconds) >= 0.95;
 
-    // Record into history
+    // Record into history (non-blocking / resilient)
     await historyService.recordHistory({
       userId,
       movieId: payload.movieId,
@@ -268,9 +277,14 @@ export class ProgressService {
       seasonNumber: payload.seasonNumber,
       episodeNumber: payload.episodeNumber,
       episodeTitle: payload.episodeTitle,
+    }).catch((err) => {
+      console.warn('⚠️ [ProgressService] recordHistory warning:', err?.message || err);
     });
 
-    if (adapter.isPostgres) {
+    try {
+      const adapter = await dbManager.getAdapter();
+
+      if (adapter.isPostgres) {
       let existingRes;
       if (payload.tmdbId) {
         if (payload.seasonNumber && payload.episodeNumber) {
@@ -462,6 +476,29 @@ export class ProgressService {
 
       this.syncLiveStreamRadar(userId, result, payload).catch(() => {});
       return result;
+    }
+    } catch (err) {
+      console.warn('⚠️ [ProgressService] saveProgress fallback:', err);
+      const fallbackResult: WatchProgress = {
+        id,
+        userId,
+        movieId: payload.movieId || null,
+        episodeId: payload.episodeId || null,
+        tmdbId: payload.tmdbId ? String(payload.tmdbId) : undefined,
+        mediaType: payload.mediaType || (payload.episodeId || payload.seasonNumber ? 'tv' : 'movie'),
+        title: payload.title,
+        posterUrl: payload.posterUrl,
+        backdropUrl: payload.backdropUrl,
+        seasonNumber: payload.seasonNumber,
+        episodeNumber: payload.episodeNumber,
+        episodeTitle: payload.episodeTitle,
+        progressSeconds: payload.progressSeconds,
+        durationSeconds: payload.durationSeconds,
+        completed,
+        updatedAt: now,
+      };
+      this.syncLiveStreamRadar(userId, fallbackResult, payload).catch(() => {});
+      return fallbackResult;
     }
   }
 

@@ -59,7 +59,7 @@ export function initFirebaseAdmin(): App | null {
 
     // 2. Check for individual environment variables
     if (!credential && ENV.FIREBASE_PROJECT_ID && ENV.FIREBASE_CLIENT_EMAIL && ENV.FIREBASE_PRIVATE_KEY) {
-      const privateKey = ENV.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+      const privateKey = ENV.FIREBASE_PRIVATE_KEY.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n');
       credential = cert({
         projectId: ENV.FIREBASE_PROJECT_ID,
         clientEmail: ENV.FIREBASE_CLIENT_EMAIL,
@@ -68,15 +68,17 @@ export function initFirebaseAdmin(): App | null {
       console.log(`🔥 [Firebase Admin] Authenticated with ENV credentials for project: ${ENV.FIREBASE_PROJECT_ID}`);
     }
 
-    // 3. Check for Application Default Credentials or Emulator
-    if (!credential && (process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.FIRESTORE_EMULATOR_HOST || ENV.FIREBASE_PROJECT_ID)) {
+    // 3. Check for Application Default Credentials or Emulator (only if explicit ADC file or emulator is set)
+    if (
+      !credential &&
+      ((process.env.GOOGLE_APPLICATION_CREDENTIALS && fs.existsSync(process.env.GOOGLE_APPLICATION_CREDENTIALS)) ||
+        process.env.FIRESTORE_EMULATOR_HOST)
+    ) {
       try {
         credential = applicationDefault();
         console.log('🔥 [Firebase Admin] Using Application Default Credentials');
       } catch {
-        if (!process.env.FIRESTORE_EMULATOR_HOST) {
-          // No emulator host
-        }
+        // Ignore ADC init error
       }
     }
 

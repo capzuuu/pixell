@@ -41,22 +41,81 @@ class PostgresAdapter implements DatabaseAdapter {
   }
 
   async init(): Promise<void> {
-    const migrationPath = path.resolve(__dirname, '../../../database/migrations/001_init_schema.sql');
-    if (fs.existsSync(migrationPath)) {
-      const sql = fs.readFileSync(migrationPath, 'utf-8');
-      await this.pool.query(sql);
-      console.log('✅ [Postgres] Migration 001_init_schema.sql applied successfully.');
+    const candidatePaths = [
+      path.resolve(__dirname, '../../../database/migrations/001_init_schema.sql'),
+      path.resolve(__dirname, '../../database/migrations/001_init_schema.sql'),
+      path.resolve(process.cwd(), 'database/migrations/001_init_schema.sql'),
+      path.resolve(process.cwd(), '../database/migrations/001_init_schema.sql'),
+    ];
+    for (const migrationPath of candidatePaths) {
+      if (fs.existsSync(migrationPath)) {
+        const sql = fs.readFileSync(migrationPath, 'utf-8');
+        await this.pool.query(sql);
+        console.log('✅ [Postgres] Migration 001_init_schema.sql applied successfully.');
+        break;
+      }
     }
+
+    // Ensure TMDB & guest columns/constraints are always migrated even on pre-existing Postgres instances
+    await this.pool.query(`
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS tmdb_id VARCHAR(100);
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS media_type VARCHAR(20);
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS title TEXT;
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS poster_url TEXT;
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS backdrop_url TEXT;
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS season_number INT;
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS episode_number INT;
+      ALTER TABLE watch_progress ADD COLUMN IF NOT EXISTS episode_title TEXT;
+      ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS check_target;
+      ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS watch_progress_user_id_fkey;
+      ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS watch_progress_movie_id_fkey;
+      ALTER TABLE watch_progress DROP CONSTRAINT IF EXISTS watch_progress_episode_id_fkey;
+
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS tmdb_id VARCHAR(100);
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS media_type VARCHAR(20);
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS title TEXT;
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS poster_url TEXT;
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS backdrop_url TEXT;
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS rating VARCHAR(30);
+      ALTER TABLE watchlist ADD COLUMN IF NOT EXISTS release_year INT;
+      ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS check_watchlist_target;
+      ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS watchlist_user_id_fkey;
+      ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS watchlist_movie_id_fkey;
+      ALTER TABLE watchlist DROP CONSTRAINT IF EXISTS watchlist_series_id_fkey;
+
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS tmdb_id VARCHAR(100);
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS media_type VARCHAR(20);
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS title TEXT;
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS poster_url TEXT;
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS backdrop_url TEXT;
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS season_number INT;
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS episode_number INT;
+      ALTER TABLE watch_history ADD COLUMN IF NOT EXISTS episode_title TEXT;
+      ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS check_history_target;
+      ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS watch_history_user_id_fkey;
+      ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS watch_history_movie_id_fkey;
+      ALTER TABLE watch_history DROP CONSTRAINT IF EXISTS watch_history_episode_id_fkey;
+    `).catch((err) => {
+      console.warn('⚠️ [Postgres] Schema upgrade notice:', err.message);
+    });
   }
 
   async seed(): Promise<void> {
     const check = await this.query('SELECT COUNT(*) as count FROM movies');
     if (parseInt(check.rows[0]?.count || '0', 10) === 0) {
-      const seedSqlPath = path.resolve(__dirname, '../../../database/seed/seed_data.sql');
-      if (fs.existsSync(seedSqlPath)) {
-        const sql = fs.readFileSync(seedSqlPath, 'utf-8');
-        await this.pool.query(sql);
-        console.log('🌱 [Postgres] Database seed executed successfully.');
+      const candidatePaths = [
+        path.resolve(__dirname, '../../../database/seed/seed_data.sql'),
+        path.resolve(__dirname, '../../database/seed/seed_data.sql'),
+        path.resolve(process.cwd(), 'database/seed/seed_data.sql'),
+        path.resolve(process.cwd(), '../database/seed/seed_data.sql'),
+      ];
+      for (const seedSqlPath of candidatePaths) {
+        if (fs.existsSync(seedSqlPath)) {
+          const sql = fs.readFileSync(seedSqlPath, 'utf-8');
+          await this.pool.query(sql);
+          console.log('🌱 [Postgres] Database seed executed successfully.');
+          break;
+        }
       }
     }
   }
@@ -82,11 +141,29 @@ class EmbeddedAdapter implements DatabaseAdapter {
 
   constructor() {
     const dbDir = path.resolve(__dirname, '../../../database');
-    if (!fs.existsSync(dbDir)) {
-      fs.mkdirSync(dbDir, { recursive: true });
-    }
+    try {
+      if (!fs.existsSync(dbDir)) {
+        fs.mkdirSync(dbDir, { recursive: true });
+      }
+    } catch {}
     this.filePath = path.join(dbDir, 'store.json');
     this.load();
+  }
+
+  private ensureCollections(): void {
+    const collections = [
+      'users', 'genres', 'movies', 'movie_genres', 'series',
+      'series_genres', 'seasons', 'episodes', 'watch_progress',
+      'watchlist', 'watch_history'
+    ];
+    if (!this.data || typeof this.data !== 'object') {
+      this.data = {};
+    }
+    for (const col of collections) {
+      if (!Array.isArray(this.data[col])) {
+        this.data[col] = [];
+      }
+    }
   }
 
   private load(): void {
@@ -98,17 +175,19 @@ class EmbeddedAdapter implements DatabaseAdapter {
         console.warn('⚠️ Could not read embedded store, reinitializing...');
       }
     }
+    this.ensureCollections();
   }
 
   private save(): void {
     try {
       fs.writeFileSync(this.filePath, JSON.stringify(this.data, null, 2), 'utf-8');
     } catch (err) {
-      console.error('Error saving embedded store:', err);
+      // Ignore write errors on read-only filesystems
     }
   }
 
   getStore() {
+    this.ensureCollections();
     return this.data;
   }
 
@@ -128,8 +207,14 @@ class EmbeddedAdapter implements DatabaseAdapter {
   }
 
   async seed(): Promise<void> {
-    const seedJsonPath = path.resolve(__dirname, '../../../database/seed/seed_data.json');
-    if (fs.existsSync(seedJsonPath)) {
+    const candidatePaths = [
+      path.resolve(__dirname, '../../../database/seed/seed_data.json'),
+      path.resolve(__dirname, '../../database/seed/seed_data.json'),
+      path.resolve(process.cwd(), 'database/seed/seed_data.json'),
+      path.resolve(process.cwd(), '../database/seed/seed_data.json'),
+    ];
+    const seedJsonPath = candidatePaths.find((p) => fs.existsSync(p));
+    if (seedJsonPath) {
       const raw = JSON.parse(fs.readFileSync(seedJsonPath, 'utf-8'));
       const bcrypt = require('bcryptjs');
 
@@ -323,27 +408,29 @@ export class RealtimeDatabaseAdapter implements DatabaseAdapter {
     return [];
   }
 
+  private withTimeout<T>(promise: Promise<T>, ms = 4000): Promise<T> {
+    return Promise.race([
+      promise,
+      new Promise<T>((_, reject) =>
+        setTimeout(() => reject(new Error(`Firebase RTDB request timed out after ${ms}ms`)), ms)
+      ),
+    ]);
+  }
+
   async init(): Promise<void> {
-    try {
-      console.log('🔍 [RealtimeDatabaseAdapter] Checking Firebase Realtime Database catalog...');
-      const moviesSnap = await this.db.ref('movies').once('value');
-      const moviesVal = moviesSnap.val();
+    console.log('🔍 [RealtimeDatabaseAdapter] Checking Firebase Realtime Database catalog...');
+    const moviesSnap = await this.withTimeout(this.db.ref('movies').once('value'), 4000);
+    const moviesVal = moviesSnap.val();
 
-      if (!moviesVal || (Array.isArray(moviesVal) && moviesVal.length === 0) || Object.keys(moviesVal).length === 0) {
-        console.log('🌱 [RealtimeDatabaseAdapter] Empty database in Firebase Realtime Database. Automatically seeding initial catalog & users...');
-        await this.seed();
-      } else {
-        await this.loadAllCollections();
-        console.log(`🔥 [RealtimeDatabaseAdapter] Successfully loaded ${this.data.movies.length} movies & ${this.data.series.length} series from Firebase Realtime Database.`);
-      }
-
-      this.attachListeners();
-    } catch (err: any) {
-      console.warn('⚠️ [RealtimeDatabaseAdapter] RTDB query warning:', err.message);
-      if (!this.data.movies || this.data.movies.length === 0) {
-        await this.seed();
-      }
+    if (!moviesVal || (Array.isArray(moviesVal) && moviesVal.length === 0) || Object.keys(moviesVal).length === 0) {
+      console.log('🌱 [RealtimeDatabaseAdapter] Empty database in Firebase Realtime Database. Automatically seeding initial catalog & users...');
+      await this.seed();
+    } else {
+      await this.loadAllCollections();
+      console.log(`🔥 [RealtimeDatabaseAdapter] Successfully loaded ${this.data.movies.length} movies & ${this.data.series.length} series from Firebase Realtime Database.`);
     }
+
+    this.attachListeners();
   }
 
   private async loadAllCollections(): Promise<void> {
@@ -353,7 +440,7 @@ export class RealtimeDatabaseAdapter implements DatabaseAdapter {
       'watchlist', 'watch_history'
     ];
 
-    const rootSnap = await this.db.ref().once('value');
+    const rootSnap = await this.withTimeout(this.db.ref().once('value'), 4000);
     const rootVal = rootSnap.val() || {};
 
     for (const colName of collections) {
@@ -374,7 +461,7 @@ export class RealtimeDatabaseAdapter implements DatabaseAdapter {
           const val = snapshot.val();
           this.data[colName] = this.normalizeArray(val);
         }
-      });
+      }, () => {});
     }
   }
 
@@ -392,7 +479,9 @@ export class RealtimeDatabaseAdapter implements DatabaseAdapter {
         updates[colName] = this.data[colName] || [];
       }
 
-      await this.db.ref().update(updates);
+      await this.withTimeout(this.db.ref().update(updates), 4000);
+    } catch (err: any) {
+      console.warn('⚠️ [RealtimeDatabaseAdapter] RTDB write warning:', err.message);
     } finally {
       setTimeout(() => {
         this.isSyncing = false;
@@ -401,8 +490,14 @@ export class RealtimeDatabaseAdapter implements DatabaseAdapter {
   }
 
   async seed(): Promise<void> {
-    const seedJsonPath = path.resolve(__dirname, '../../../database/seed/seed_data.json');
-    if (!fs.existsSync(seedJsonPath)) return;
+    const candidatePaths = [
+      path.resolve(__dirname, '../../../database/seed/seed_data.json'),
+      path.resolve(__dirname, '../../database/seed/seed_data.json'),
+      path.resolve(process.cwd(), 'database/seed/seed_data.json'),
+      path.resolve(process.cwd(), '../database/seed/seed_data.json'),
+    ];
+    const seedJsonPath = candidatePaths.find((p) => fs.existsSync(p));
+    if (!seedJsonPath) return;
 
     const raw = JSON.parse(fs.readFileSync(seedJsonPath, 'utf-8'));
     const bcrypt = require('bcryptjs');
@@ -560,11 +655,16 @@ class DatabaseManager {
     if (ENV.USE_FIREBASE || isFirebaseConfigured()) {
       const rtdb = getFirebaseRtdb();
       if (rtdb) {
-        console.log('🔥 [Database] Using Firebase Realtime Database as the sole primary backend database.');
-        this.adapter = new RealtimeDatabaseAdapter(rtdb);
-        await this.adapter.init();
-        this.isInitialized = true;
-        return;
+        try {
+          console.log('🔥 [Database] Using Firebase Realtime Database as the sole primary backend database.');
+          const rtdbAdapter = new RealtimeDatabaseAdapter(rtdb);
+          await rtdbAdapter.init();
+          this.adapter = rtdbAdapter;
+          this.isInitialized = true;
+          return;
+        } catch (rtdbErr: any) {
+          console.warn('⚠️ [Database] Firebase RTDB initialization failed, falling back:', rtdbErr.message);
+        }
       } else if (ENV.USE_FIREBASE) {
         console.warn('⚠️ [Database] USE_FIREBASE=true is set, but Firebase RTDB credentials/URL are not yet configured.');
         console.warn('⚠️ [Database] Falling back to high-speed storage adapter.');

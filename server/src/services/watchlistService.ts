@@ -18,9 +18,10 @@ export interface AddWatchlistPayload {
 
 export class WatchlistService {
   async getWatchlist(userId: string): Promise<Watchlist[]> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
+      if (adapter.isPostgres) {
       const res = await adapter.query(
         'SELECT * FROM watchlist WHERE user_id = $1 ORDER BY created_at DESC',
         [userId]
@@ -82,6 +83,10 @@ export class WatchlistService {
         });
       }
       return items.reverse();
+    }
+    } catch (err) {
+      console.warn('⚠️ [WatchlistService] getWatchlist fallback:', err);
+      return [];
     }
   }
 
@@ -221,39 +226,49 @@ export class WatchlistService {
   }
 
   async removeFromWatchlist(userId: string, targetId: string): Promise<boolean> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
-      const res = await adapter.query(
-        'DELETE FROM watchlist WHERE user_id = $1 AND (id = $2 OR movie_id = $2 OR series_id = $2 OR tmdb_id = $2)',
-        [userId, targetId]
-      );
-      return res.rowCount > 0;
-    } else {
-      const store = (adapter as any).getStore();
-      const initial = store.watchlist.length;
-      store.watchlist = store.watchlist.filter((w: any) =>
-        !(w.user_id === userId && (w.id === targetId || w.movie_id === targetId || w.series_id === targetId || String(w.tmdb_id) === String(targetId)))
-      );
-      (adapter as any).saveStore();
-      return store.watchlist.length < initial;
+      if (adapter.isPostgres) {
+        const res = await adapter.query(
+          'DELETE FROM watchlist WHERE user_id = $1 AND (id = $2 OR movie_id = $2 OR series_id = $2 OR tmdb_id = $2)',
+          [userId, targetId]
+        );
+        return res.rowCount > 0;
+      } else {
+        const store = (adapter as any).getStore();
+        const initial = store.watchlist.length;
+        store.watchlist = store.watchlist.filter((w: any) =>
+          !(w.user_id === userId && (w.id === targetId || w.movie_id === targetId || w.series_id === targetId || String(w.tmdb_id) === String(targetId)))
+        );
+        (adapter as any).saveStore();
+        return store.watchlist.length < initial;
+      }
+    } catch (err) {
+      console.warn('⚠️ [WatchlistService] removeFromWatchlist fallback:', err);
+      return false;
     }
   }
 
   async isInWatchlist(userId: string, targetId: string): Promise<boolean> {
-    const adapter = await dbManager.getAdapter();
+    try {
+      const adapter = await dbManager.getAdapter();
 
-    if (adapter.isPostgres) {
-      const res = await adapter.query(
-        'SELECT 1 FROM watchlist WHERE user_id = $1 AND (movie_id = $2 OR series_id = $2 OR id = $2 OR tmdb_id = $2) LIMIT 1',
-        [userId, targetId]
-      );
-      return res.rows.length > 0;
-    } else {
-      const store = (adapter as any).getStore();
-      return store.watchlist.some((w: any) =>
-        w.user_id === userId && (w.movie_id === targetId || w.series_id === targetId || w.id === targetId || String(w.tmdb_id) === String(targetId))
-      );
+      if (adapter.isPostgres) {
+        const res = await adapter.query(
+          'SELECT 1 FROM watchlist WHERE user_id = $1 AND (movie_id = $2 OR series_id = $2 OR id = $2 OR tmdb_id = $2) LIMIT 1',
+          [userId, targetId]
+        );
+        return res.rows.length > 0;
+      } else {
+        const store = (adapter as any).getStore();
+        return store.watchlist.some((w: any) =>
+          w.user_id === userId && (w.movie_id === targetId || w.series_id === targetId || w.id === targetId || String(w.tmdb_id) === String(targetId))
+        );
+      }
+    } catch (err) {
+      console.warn('⚠️ [WatchlistService] isInWatchlist fallback:', err);
+      return false;
     }
   }
 }
